@@ -1,9 +1,31 @@
+<?php
+    include '../connect.php';
+    include '../functions/session.php';
+
+    $id = $_GET['id'];
+    if($id == ''){
+        // fungsi untuk mengembalikan user ke halaman daftar penyakit jika id tidak ditemukan
+        header("Location: diseases.php");
+        exit;
+    }
+    $query = "SELECT * FROM `diseases` WHERE `id`=$id;";
+    $sql = mysqli_query($mysqli, $query);
+    
+    if(mysqli_num_rows($sql) == 0){
+        // fungsi untuk mengembalikan user ke halaman daftar penyakit jika penyakit dengan id tersebut tidak ditemukan
+        $_SESSION['message'] = "Detail Penyakit Tidak Ditemukan!";
+        $_SESSION['color_alert'] = "warning";
+        header("Location: diseases.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SIP-PEMDA | Diagnosa </title>
+    <title>SIP-PEMDA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -26,13 +48,15 @@
           </li>
         </ul>
 
+        <!-- codingan untuk tombol logout -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="logout.html">
-              <i class="fas fa-sign-out-alt"></i>
+            <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
+        <!-- codingan untuk tombol logout -->
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -55,7 +79,7 @@
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
-                <a href="index.html" class="nav-link active">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
@@ -63,7 +87,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.html" class="nav-link">
+                <a href="diseases.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -71,7 +95,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.html" class="nav-link">
+                <a href="symptoms.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -88,7 +112,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Diagnosa Penyakit</h1>
+                <h1 class="m-0 text-dark">Detail Penyakit</h1>
               </div>
             </div>
           </div>
@@ -97,30 +121,49 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-12 alert alert-success text-center" role="alert">
-                Hasil Diagnosa Penyakit
-              </div>
-              <div class="col-12">
-                <div class="row justify-content-between">
-                    <div class="col-4">
-                        <div class="card container p-3">
-                            List Gejala Pilihan Pasien
+              <div class="card col-12">
+                <div class="card-header col-12">
+                    <a href="diseases.php" class="btn btn-sm btn-default float-right">Kembali</a>
+                </div>
+                <div class="card-body">
+                    <?php 
+                    while($datas = mysqli_fetch_assoc($sql)){ 
+                    ?>
+                        <div class="form-group">
+                            <label for="">Nama Penyakit</label>
+                            <input type="text" class="form-control" value="<?php echo $datas['name']; ?>" readonly id="name" name="name">
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="card container p-3">
-                            Nama Penyakit
+                        <div class="form-group">
+                            <label for="">Deskripsi Penyakit</label>
+                            <textarea name="description" id="description" rows="5" class="form-control" readonly><?php echo $datas['description']; ?></textarea>
                         </div>
-                        <div class="card container p-3">
-                            Diagnosa Penyakit
+                        <div class="form-group">
+                            <label for="">Gejala</label>
+                            <div>
+                                <ul>
+                            <?php
+                                $query_symp = "SELECT symp_of_disease.id, symptoms.name FROM `symp_of_disease` INNER JOIN symptoms ON symptoms.id = symptom_id WHERE disease_id=$id";
+                                $get_symp = mysqli_query($mysqli, $query_symp);
+                                while($data_symp = mysqli_fetch_assoc($get_symp)){ ?>
+                                     <li><?php echo $data_symp['name']; ?></li>   
+                                <?php }
+                            ?>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="card container p-3">
-                            Penjelasan Penyakit
+                        <div class="form-group">
+                            <label for="">Penyebab</label>
+                            <?php include $datas['cause']; ?>
                         </div>
-                        <div>
-                            <a href="index.html" class="btn btn-sm btn-success">Selesai</a>
+                        <div class="form-group">
+                            <label for="">Penanganan</label>
+                            <?php include $datas['handling']; ?>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="">Obat</label>
+                            <?php include $datas['medicine']; ?>
+                        </div>
+                    <?php } ?>
                 </div>
               </div>
             </div>

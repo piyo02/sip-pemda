@@ -1,9 +1,12 @@
+<?php
+  include '../functions/session.php';
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SIP-PEMDA</title>
+    <title>SIP-PEMDA | Profil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -28,7 +31,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="logout.html">
+            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
               <i class="fas fa-sign-out-alt"></i>
             </a>
           </li>
@@ -36,7 +39,7 @@
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index.html" class="brand-link">
+        <a href="index3.html" class="brand-link">
           <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
           <span class="brand-text font-weight-light">SIP-PEMDA</span>
@@ -55,7 +58,7 @@
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
-                <a href="index.html" class="nav-link active">
+                <a href="index.html" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
@@ -97,48 +100,7 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-12 alert alert-success text-center" role="alert">
-                Silahkan Memilih Usia dan Gejala!
-              </div>
-              <div class="col-12">
-                <div class="row justify-content-center">
-                  <div class="col-4">
-                    <div class="card container p-3">
-                      <form action="diagnosis.html" method="post">
-                        <div class="form-group">
-                          <label for="age">Pilih Umur</label>
-                          <select name="age" id="age" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="disease">Pilih Gejala</label>
-                          <select name="disease" id="disease" class="form-control">
-                            <option value="Batuk">Batuk</option>
-                            <option value="Flu">Flu</option>
-                            <option value="Panas">Panas</option>
-                            <option value="Muntah">Muntah</option>
-                            <option value="Sakit Kepala">Sakit Kepala</option>
-                            <option value="Demam">Demam</option>
-                          </select>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-success">Diagnosa</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <img src="../dist/img/health-child.jpg" alt="background" class="img-fluid">
             </div>
           </div>
         </section>

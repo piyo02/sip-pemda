@@ -1,3 +1,10 @@
+<?php
+  include '../connect.php';
+  include '../functions/session.php';
+
+  $query = "SELECT * FROM `diseases`;";
+  $sql = mysqli_query($mysqli, $query);
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,13 +33,15 @@
           </li>
         </ul>
 
+        <!-- codingan untuk tombol logout -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="logout.html">
-              <i class="fas fa-sign-out-alt"></i>
+            <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
+        <!-- codingan untuk tombol logout -->
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -55,7 +64,7 @@
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
-                <a href="index.html" class="nav-link">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
@@ -63,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.html" class="nav-link">
+                <a href="diseases.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -71,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.html" class="nav-link active">
+                <a href="symptoms.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -88,7 +97,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Daftar Gejala</h1>
+                <h1 class="m-0 text-dark">Daftar Penyakit</h1>
               </div>
             </div>
           </div>
@@ -97,11 +106,32 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="card col-12">
-                <div class="card-header col-12">
-                    <button class="btn btn-sm btn-primary float-right">Tambah Gejala</button>
+              <!-- jika ada data session message, tampilkan pesan tersebut -->
+              <?php if(isset($_SESSION['message'])){ ?>
+              <div class="col-12">
+                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <?php echo $_SESSION['message']; ?>
                 </div>
+              </div>
+              <?php 
+                unset($_SESSION['message']);
+                unset($_SESSION['color_alert']);
+              } ?>
+              
+              <div class="card col-12">
+              <?php if($_SESSION['role'] == "admin"){ ?>
+                <div class="card-header col-12">
+                    <a href="add_disease.php" class="btn btn-sm btn-primary float-right">Tambah Penyakit</a>
+                </div>
+              <?php } ?>
                 <div class="card-body">
+                <?php
+                    if(mysqli_num_rows($sql) == 0){ ?>
+                      Tidak ada data tentang Penyakit
+                  <?php 
+                    } else { 
+                  ?>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -111,16 +141,25 @@
                             </tr>
                         </thead>
                         <tbody>
+                          <?php 
+                            $number = 1;
+                            while($datas = mysqli_fetch_assoc($sql)){ 
+                          ?>
                             <tr>
-                                <td>1</td>
-                                <td>Lorem</td>
-                                <td>
-                                    <a href="#edit" class="btn btn-sm btn-secondary">Edit</a>
-                                    <a href="#delete" class="btn btn-sm btn-danger">Hapus</a>
-                                </td>
+                              <td><?php echo $number++; ?></td>
+                              <td><?php echo $datas['name']; ?></td>
+                              <td>
+                                  <a href="detail_disease.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-primary">Penjelasan</a>
+                                  <a href="edit_disease.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
+                                  <a href="../functions/delete_disease.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus penyakit ini?');" class="btn btn-sm btn-danger">Hapus</a>
+                              </td>
                             </tr>
+                          <?php } ?>
                         </tbody>
                     </table>
+                    <?php
+                    }
+                  ?>
                 </div>
               </div>
             </div>

@@ -1,3 +1,28 @@
+<?php
+  include '../connect.php';
+  include '../functions/session.php';
+
+  $id = $_GET['id'];
+  if($id == ''){
+    // fungsi untuk mengembalikan user ke halaman daftar penyakit jika id tidak ditemukan
+    header("Location: diseases.php");
+    exit;
+  }
+  $query_symp = "SELECT symptoms.*, symp_of_disease.disease_id FROM `symptoms` LEFT JOIN symp_of_disease ON symp_of_disease.symptom_id=symptoms.id AND symp_of_disease.disease_id=$id ORDER BY id ASC;";
+  $sql_symp = mysqli_query($mysqli, $query_symp);
+
+  $query_disease = "SELECT * FROM `diseases` WHERE `id`=$id;";
+  $sql_disease = mysqli_query($mysqli, $query_disease);
+
+  if(mysqli_num_rows($sql_disease) == 0){
+    // fungsi untuk mengembalikan user ke halaman daftar penyakit jika penyakit dengan id tersebut tidak ditemukan
+    $_SESSION['message'] = "Detail Penyakit Tidak Ditemukan!";
+    $_SESSION['color_alert'] = "warning";
+    header("Location: diseases.php");
+    exit;
+  }
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -55,7 +80,7 @@
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
-                <a href="index.html" class="nav-link">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
@@ -63,7 +88,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.html" class="nav-link active">
+                <a href="diseases.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -71,7 +96,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.html" class="nav-link">
+                <a href="symptoms.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -88,7 +113,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Daftar Penyakit</h1>
+                <h1 class="m-0 text-dark">Tambah Penyakit</h1>
               </div>
             </div>
           </div>
@@ -98,29 +123,58 @@
           <div class="container-fluid">
             <div class="row">
               <div class="card col-12">
-                <div class="card-header col-12">
-                    <button class="btn btn-sm btn-primary float-right">Tambah Penyakit</button>
-                </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nama Penyakit</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Lorem</td>
-                                <td>
-                                    <a href="#edit" class="btn btn-sm btn-secondary">Edit</a>
-                                    <a href="#delete" class="btn btn-sm btn-danger">Hapus</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                  <form action="../functions/edit_diseases.php" method="post">
+                  <?php 
+                    while($data_disease = mysqli_fetch_assoc($sql_disease)){ 
+                  ?>
+                    <input type="hidden" class="form-control" value="<?php echo $data_disease['id']; ?>" id="id" name="id">
+                    <div class="form-group">
+                      <label for="">Nama Penyakit</label>
+                      <input type="text" class="form-control" value="<?php echo $data_disease['name']; ?>" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Deskripsi Penyakit</label>
+                      <textarea name="description" id="description" rows="5" class="form-control"><?php echo $data_disease['description']; ?></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Gejala</label>
+                      <div class="row">
+                        <?php 
+                          while($data_symp = mysqli_fetch_assoc($sql_symp)){ 
+                        ?>
+                        <div class="col-2">
+                          <div class="form-check">
+                            <?php if($data_symp['disease_id'] != NULL){ ?>
+                            <input checked class="form-check-input" type="checkbox" name="symptom[]" id="symptom" value="<?php echo $data_symp['id']; ?>">
+                            <?php } else {?>
+                            <input class="form-check-input" type="checkbox" name="symptom[]" id="symptom" value="<?php echo $data_symp['id']; ?>">
+                            <?php } ?>
+                            <label class="form-check-label"><?php echo $data_symp['name']; ?></label>
+                          </div>
+                        </div>
+                        <?php } ?>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Penyebab</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="cause" id="cause" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['cause'] ?> </textarea>
+                      <input type="hidden" name="filename_cause" value="<?php echo $data_disease['cause'] ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Penanganan</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="handling" id="handling" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['handling'] ?> </textarea>
+                      <input type="hidden" name="filename_handling" value="<?php echo $data_disease['handling'] ?>">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Obat</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="medicine" id="medicine" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['medicine'] ?> </textarea>
+                      <input type="hidden" name="filename_medicine" value="<?php echo $data_disease['medicine'] ?>">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
+                    <a href="diseases.php" class="btn btn-sm btn-default">Kembali</a>
+                  <?php } ?>
+                  </form>
                 </div>
               </div>
             </div>
@@ -152,5 +206,10 @@
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
+    <script>
+      $(function () {
+        $('.textarea').summernote()
+      })
+    </script>
   </body>
 </html>

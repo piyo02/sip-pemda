@@ -15,15 +15,15 @@
 <body class="hold-transition login-page" style="background-image: url('../dist/img/background-login.jpg'); background-size: cover;">
 <div class="login-box">
   <div class="login-logo">
-    <a href="#" class="text-white"><b>SIP-</b>PEMDA</a>
+    <a href="/sip_pemda" class="text-white"><b>SIP-</b>PEMDA</a>
   </div>
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Log In</p>
 
-      <form action="#" method="post">
+      <form action="../functions/login.php" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" class="form-control" placeholder="Email" id="email" name="email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" id="password" name="password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -47,7 +47,7 @@
       </form>
 
       <p class="mb-1">
-        <a href="register.html" class="text-center float-right">Register a new membership</a>
+        <a href="register.php" class="text-center float-right">Register a new membership</a>
       </p>
     </div>
   </div>

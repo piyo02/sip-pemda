@@ -21,16 +21,18 @@
 <body class="hold-transition register-page" style="background-image: url('../dist/img/background-login.jpg'); background-size: cover;">
 <div class="register-box">
   <div class="register-logo">
-    <a href="#" class="text-white"><b>SIP-</b>PEMDA</a>
+    <a href="/sip_pemda" class="text-white"><b>SIP-</b>PEMDA</a>
   </div>
 
   <div class="card">
     <div class="card-body register-card-body">
       <p class="login-box-msg">Register a new membership</p>
 
-      <form action="#" method="post">
+      <form action="../functions/register.php" method="post"> 
+      <!-- kenapa ../ karena action yang kita tuju berbeda folder, yang di tuju adalah file register.php pada folder function, sedangkan file yang sekarang diedit berada di folder pages, jadi kita keluar dulu dari folder pages dengan ../, lalu masuk ke folder functions lalu menuju file register.php -->
+      <!-- untuk tiap inputan, berikan id dan name yang sama dengan kolom di database -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Lengkap">
+          <input type="text" class="form-control" placeholder="Nama Lengkap" id="username" name="username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -38,7 +40,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" class="form-control" placeholder="Email" id="email" name="email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -46,7 +48,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Anak">
+          <input type="text" class="form-control" placeholder="Nama Anak" id="child_name" name="child_name">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -54,7 +56,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usia">
+          <input type="text" class="form-control" placeholder="Usia" id="age" name="age">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -62,7 +64,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="No HP">
+          <input type="text" class="form-control" placeholder="No HP" id="phone_number" name="phone_number">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -70,7 +72,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Alamat">
+          <input type="text" class="form-control" placeholder="Alamat" id="address" name="address">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -78,7 +80,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" id="password" name="password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -86,7 +88,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Masukkan ulang password">
+          <input type="password" class="form-control" placeholder="Masukkan ulang password" id="password" name="password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -103,7 +105,7 @@
       </form>
 
       <div class="col-12">
-        <a href="login.html" class="text-center float-right">I already have a membership</a>
+        <a href="login.php" class="text-center float-right">I already have a membership</a>
       </div>
     </div>
     <!-- /.form-box -->
