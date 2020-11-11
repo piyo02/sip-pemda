@@ -4,7 +4,7 @@
     include 'session.php';
 
     $id = $_GET['id'];
-    $sql = "DELETE FROM `symptoms` WHERE `symptoms`.`id` = $id";
+    $sql = "DELETE FROM `gejala` WHERE `gejala`.`id` = $id";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil hapus data, kembali ke halaman gejala, dan berikan alert berhasil hapus data

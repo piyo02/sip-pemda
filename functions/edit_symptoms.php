@@ -4,9 +4,9 @@
     include 'session.php';
 
     $id = $_POST['id'];
-    $name = $_POST['name'];
+    $nama = $_POST['nama'];
 
-    $sql = "UPDATE `symptoms` SET `name` = '$name' WHERE `symptoms`.`id` = $id;";
+    $sql = "UPDATE `gejala` SET `nama` = '$nama' WHERE `gejala`.`id` = $id;";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data

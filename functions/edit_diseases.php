@@ -4,24 +4,24 @@
     include 'session.php';
 
     $id = $_POST['id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
+    $nama = $_POST['nama'];
+    $penjelasan = $_POST['penjelasan'];
 
-    $cause = $_POST['cause'];
+    $penyebab = $_POST['penyebab'];
     // mengubah file di folder causes untuk menyimpan penyebab penyakit
     $filename_cause = $_POST['filename_cause'];
-    file_put_contents($filename_cause, $cause);
+    file_put_contents($filename_cause, $penyebab);
 
-    $handling = $_POST['handling'];
+    $penanganan = $_POST['penanganan'];
     $filename_handling = $_POST['filename_handling'];
-    file_put_contents($filename_handling, $handling);
+    file_put_contents($filename_handling, $penanganan);
 
-    $medicine = $_POST['medicine'];
+    $obat = $_POST['obat'];
     $filename_medicine = $_POST['filename_medicine'];
-    file_put_contents($filename_medicine, $medicine);
+    file_put_contents($filename_medicine, $obat);
 
     
-    $sql = "UPDATE `diseases` SET `name` = '$name', `description` = '$description' WHERE `diseases`.`id` = $id;";
+    $sql = "UPDATE `penyakit` SET `nama` = '$nama', `penjelasan` = '$penjelasan' WHERE `penyakit`.`id` = $id;";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data

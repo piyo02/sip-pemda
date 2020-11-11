@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Anak" id="child_name" name="child_name">
+          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usia" id="age" name="age">
+          <input type="text" class="form-control" placeholder="Usia" id="umur" name="umur">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="No HP" id="phone_number" name="phone_number">
+          <input type="text" class="form-control" placeholder="No HP" id="nomor_telepon" name="nomor_telepon">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Alamat" id="address" name="address">
+          <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -105,7 +105,7 @@
       </form>
 
       <div class="col-12">
-        <a href="login.php" class="text-center float-right">I already have a membership</a>
+        <a href="login.php" class="text-center float-right mt-2">Sudah memiliki akun</a>
       </div>
     </div>
     <!-- /.form-box -->

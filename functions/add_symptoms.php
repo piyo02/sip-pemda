@@ -2,10 +2,10 @@
     include '../connect.php';
     include 'session.php';
 
-    $name = $_POST['name'];
+    $nama = $_POST['nama'];
 
-    $sql = "INSERT INTO `symptoms` (`id`, `name`)
-            VALUES (NULL, '$name');";
+    $sql = "INSERT INTO `gejala` (`id`, `nama`)
+            VALUES (NULL, '$nama');";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data

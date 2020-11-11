@@ -2,7 +2,7 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `symptoms`;";
+  $query = "SELECT * FROM `gejala`;";
 
   $sql = mysqli_query($mysqli, $query);
 
@@ -114,11 +114,11 @@
                   <form action="../functions/add_diseases.php" method="post">
                     <div class="form-group">
                       <label for="">Nama Penyakit</label>
-                      <input type="text" class="form-control" placeholder="Nama Penyakit" id="name" name="name">
+                      <input type="text" class="form-control" placeholder="Nama Penyakit" id="nama" name="nama">
                     </div>
                     <div class="form-group">
                       <label for="">Deskripsi Penyakit</label>
-                      <textarea name="description" id="description" rows="5" class="form-control" placeholder="Deskripsi Penyakit"></textarea>
+                      <textarea name="penjelasan" id="penjelasan" rows="5" class="form-control" placeholder="Deskripsi Penyakit"></textarea>
                     </div>
                     <div class="form-group">
                       <label for="">Gejala</label>
@@ -128,8 +128,8 @@
                         ?>
                         <div class="col-2">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="symptom[]" id="symptom" value="<?php echo $datas['id']; ?>">
-                            <label class="form-check-label"><?php echo $datas['name']; ?></label>
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $datas['id']; ?>">
+                            <label class="form-check-label"><?php echo $datas['nama']; ?></label>
                           </div>
                         </div>
                         <?php } ?>
@@ -137,17 +137,17 @@
                     </div>
                     <div class="form-group">
                       <label for="">Penyebab</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="cause" id="cause"
+                      <textarea class="textarea" placeholder="Place some text here" name="penyebab" id="penyebab"
                             style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                     </div>
                     <div class="form-group">
                       <label for="">Penanganan</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="handling" id="handling"
+                      <textarea class="textarea" placeholder="Place some text here" name="penanganan" id="penanganan"
                             style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                     </div>
                     <div class="form-group">
                       <label for="">Obat</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="medicine" id="medicine"
+                      <textarea class="textarea" placeholder="Place some text here" name="obat" id="obat"
                             style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary mr-2">Tambah</button>

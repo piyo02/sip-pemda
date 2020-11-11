@@ -8,7 +8,7 @@
         header("Location: diseases.php");
         exit;
     }
-    $query = "SELECT * FROM `diseases` WHERE `id`=$id;";
+    $query = "SELECT * FROM `penyakit` WHERE `id`=$id;";
     $sql = mysqli_query($mysqli, $query);
     
     if(mysqli_num_rows($sql) == 0){
@@ -131,21 +131,21 @@
                     ?>
                         <div class="form-group">
                             <label for="">Nama Penyakit</label>
-                            <input type="text" class="form-control" value="<?php echo $datas['name']; ?>" readonly id="name" name="name">
+                            <input type="text" class="form-control" value="<?php echo $datas['nama']; ?>" readonly id="nama" name="nama">
                         </div>
                         <div class="form-group">
                             <label for="">Deskripsi Penyakit</label>
-                            <textarea name="description" id="description" rows="5" class="form-control" readonly><?php echo $datas['description']; ?></textarea>
+                            <textarea name="penjelasan" id="penjelasan" rows="5" class="form-control" readonly><?php echo $datas['penjelasan']; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="">Gejala</label>
                             <div>
                                 <ul>
                             <?php
-                                $query_symp = "SELECT symp_of_disease.id, symptoms.name FROM `symp_of_disease` INNER JOIN symptoms ON symptoms.id = symptom_id WHERE disease_id=$id";
+                                $query_symp = "SELECT gejala_penyakit.id, gejala.nama FROM `gejala_penyakit` INNER JOIN gejala ON gejala.id = id_gejala WHERE id_penyakit=$id";
                                 $get_symp = mysqli_query($mysqli, $query_symp);
                                 while($data_symp = mysqli_fetch_assoc($get_symp)){ ?>
-                                     <li><?php echo $data_symp['name']; ?></li>   
+                                     <li><?php echo $data_symp['nama']; ?></li>   
                                 <?php }
                             ?>
                                 </ul>
@@ -153,15 +153,15 @@
                         </div>
                         <div class="form-group">
                             <label for="">Penyebab</label>
-                            <?php include $datas['cause']; ?>
+                            <?php include $datas['penyebab']; ?>
                         </div>
                         <div class="form-group">
                             <label for="">Penanganan</label>
-                            <?php include $datas['handling']; ?>
+                            <?php include $datas['penanganan']; ?>
                         </div>
                         <div class="form-group">
                             <label for="">Obat</label>
-                            <?php include $datas['medicine']; ?>
+                            <?php include $datas['obat']; ?>
                         </div>
                     <?php } ?>
                 </div>

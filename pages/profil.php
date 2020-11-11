@@ -1,5 +1,11 @@
 <?php
+  include '../connect.php';
   include '../functions/session.php';
+  
+  $id = $_SESSION['id'];
+
+  $query = "SELECT * FROM `users` WHERE `id`=$id ;";
+  $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,15 +37,15 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-              <i class="fas fa-sign-out-alt"></i>
+            <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index3.html" class="brand-link">
+        <a href="/sip_pemda" class="brand-link">
           <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
           <span class="brand-text font-weight-light">SIP-PEMDA</span>
@@ -51,14 +57,14 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.html" class="d-block">Administrator</a>
+              <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
             </div>
           </div>
 
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
-                <a href="index.html" class="nav-link">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Dashboard
@@ -66,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.html" class="nav-link">
+                <a href="diseases.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -74,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.html" class="nav-link">
+                <a href="symptoms.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -91,7 +97,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Dashboard</h1>
+                <h1 class="m-0 text-dark">Profil</h1>
               </div>
             </div>
           </div>
@@ -100,7 +106,68 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <img src="../dist/img/health-child.jpg" alt="background" class="img-fluid">
+            <!-- jika ada data session message, tampilkan pesan tersebut -->
+            <?php if(isset($_SESSION['message'])){ ?>
+              <div class="col-12">
+                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <?php echo $_SESSION['message']; ?>
+                </div>
+              </div>
+              <?php 
+                unset($_SESSION['message']);
+                unset($_SESSION['color_alert']);
+              } ?>
+
+              <div class="card col-12">
+                <div class="card-body">
+                  <form action="../functions/edit_profile.php" method="post">
+                    <div class="row">
+                      <?php while($datas = mysqli_fetch_assoc($sql) ){ ?>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Username</label>
+                          <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="<?php echo $datas['username'] ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Email</label>
+                          <input type="text" class="form-control" placeholder="Email" id="email" name="email" readonly value="<?php echo $datas['email'] ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Nama Anak</label>
+                          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak" value="<?php echo $datas['nama_anak'] ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Umur</label>
+                          <input type="number" class="form-control" placeholder="Umur" id="umur" name="umur" value="<?php echo $datas['umur'] ?>">
+                        </div>  
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group">
+                          <label for="">Nomor Telepon</label>
+                          <input type="text" class="form-control" placeholder="Nomor Telepon" id="nomor_telepon" name="nomor_telepon" value="<?php echo $datas['nomor_telepon'] ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Alamat</label>
+                          <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat" value="<?php echo $datas['alamat'] ?>">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Password Lama</label>
+                          <input type="password" class="form-control" placeholder="Password Lama" id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Password Baru</label>
+                          <input type="password" class="form-control" placeholder="Password Baru" id="new_password" name="new_password">
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-sm float-right">Edit</button>                    
+                      </div>
+                      <?php } ?>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </section>

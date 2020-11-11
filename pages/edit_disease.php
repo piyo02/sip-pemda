@@ -8,10 +8,10 @@
     header("Location: diseases.php");
     exit;
   }
-  $query_symp = "SELECT symptoms.*, symp_of_disease.disease_id FROM `symptoms` LEFT JOIN symp_of_disease ON symp_of_disease.symptom_id=symptoms.id AND symp_of_disease.disease_id=$id ORDER BY id ASC;";
+  $query_symp = "SELECT gejala.*, gejala_penyakit.id_penyakit FROM `gejala` LEFT JOIN gejala_penyakit ON gejala_penyakit.id_gejala=gejala.id AND gejala_penyakit.id_penyakit=$id ORDER BY id ASC;";
   $sql_symp = mysqli_query($mysqli, $query_symp);
 
-  $query_disease = "SELECT * FROM `diseases` WHERE `id`=$id;";
+  $query_disease = "SELECT * FROM `penyakit` WHERE `id`=$id;";
   $sql_disease = mysqli_query($mysqli, $query_disease);
 
   if(mysqli_num_rows($sql_disease) == 0){
@@ -131,11 +131,11 @@
                     <input type="hidden" class="form-control" value="<?php echo $data_disease['id']; ?>" id="id" name="id">
                     <div class="form-group">
                       <label for="">Nama Penyakit</label>
-                      <input type="text" class="form-control" value="<?php echo $data_disease['name']; ?>" id="name" name="name">
+                      <input type="text" class="form-control" value="<?php echo $data_disease['nama']; ?>" id="nama" name="nama">
                     </div>
                     <div class="form-group">
                       <label for="">Deskripsi Penyakit</label>
-                      <textarea name="description" id="description" rows="5" class="form-control"><?php echo $data_disease['description']; ?></textarea>
+                      <textarea name="penjelasan" id="penjelasan" rows="5" class="form-control"><?php echo $data_disease['penjelasan']; ?></textarea>
                     </div>
                     <div class="form-group">
                       <label for="">Gejala</label>
@@ -145,12 +145,12 @@
                         ?>
                         <div class="col-2">
                           <div class="form-check">
-                            <?php if($data_symp['disease_id'] != NULL){ ?>
-                            <input checked class="form-check-input" type="checkbox" name="symptom[]" id="symptom" value="<?php echo $data_symp['id']; ?>">
+                            <?php if($data_symp['id_penyakit'] != NULL){ ?>
+                            <input checked class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $data_symp['id']; ?>">
                             <?php } else {?>
-                            <input class="form-check-input" type="checkbox" name="symptom[]" id="symptom" value="<?php echo $data_symp['id']; ?>">
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $data_symp['id']; ?>">
                             <?php } ?>
-                            <label class="form-check-label"><?php echo $data_symp['name']; ?></label>
+                            <label class="form-check-label"><?php echo $data_symp['nama']; ?></label>
                           </div>
                         </div>
                         <?php } ?>
@@ -158,18 +158,18 @@
                     </div>
                     <div class="form-group">
                       <label for="">Penyebab</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="cause" id="cause" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['cause'] ?> </textarea>
-                      <input type="hidden" name="filename_cause" value="<?php echo $data_disease['cause'] ?>">
+                      <textarea class="textarea" placeholder="Place some text here" name="penyebab" id="penyebab" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['penyebab'] ?> </textarea>
+                      <input type="hidden" name="filename_cause" value="<?php echo $data_disease['penyebab'] ?>">
                     </div>
                     <div class="form-group">
                       <label for="">Penanganan</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="handling" id="handling" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['handling'] ?> </textarea>
-                      <input type="hidden" name="filename_handling" value="<?php echo $data_disease['handling'] ?>">
+                      <textarea class="textarea" placeholder="Place some text here" name="penanganan" id="penanganan" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['penanganan'] ?> </textarea>
+                      <input type="hidden" name="filename_handling" value="<?php echo $data_disease['penanganan'] ?>">
                     </div>
                     <div class="form-group">
                       <label for="">Obat</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="medicine" id="medicine" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['medicine'] ?> </textarea>
-                      <input type="hidden" name="filename_medicine" value="<?php echo $data_disease['medicine'] ?>">
+                      <textarea class="textarea" placeholder="Place some text here" name="obat" id="obat" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"> <?php include $data_disease['obat'] ?> </textarea>
+                      <input type="hidden" name="filename_medicine" value="<?php echo $data_disease['obat'] ?>">
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
                     <a href="diseases.php" class="btn btn-sm btn-default">Kembali</a>

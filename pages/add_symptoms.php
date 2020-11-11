@@ -108,7 +108,7 @@
                   <form action="../functions/add_symptoms.php" method="post">
                     <div class="form-group">
                       <label for="">Nama Gejala</label>
-                      <input type="text" class="form-control" placeholder="Nama Gejala" id="name" name="name">
+                      <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama">
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary mr-2">Tambah</button>
                     <a href="symptoms.php" class="btn btn-sm btn-default">Kembali</a>

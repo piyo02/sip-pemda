@@ -1,27 +1,30 @@
 <?php
     include '../connect.php';
+    session_start();
 
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $child_name = $_POST['child_name'];
-    $age = $_POST['age'];
-    $phone_number = $_POST['phone_number'];
-    $address = $_POST['address'];
+    $nama_anak = $_POST['nama_anak'];
+    $umur = $_POST['umur'];
+    $nomor_telepon = $_POST['nomor_telepon'];
+    $alamat = $_POST['alamat'];
     $password = md5($_POST['password']);
 
-    $sql = "INSERT INTO `users` (`id`, `username`, `email`, `password`, `child_name`, `age`, `phone_number`, `address`, `role`)
-            VALUES (NULL, '$username', '$email', '$password', '$child_name', $age, '$phone_number', '$address', 'user')";
+    $sql = "INSERT INTO `users` (`id`, `username`, `email`, `password`, `nama_anak`, `umur`, `nomor_telepon`, `alamat`, `role`)
+            VALUES (NULL, '$username', '$email', '$password', '$nama_anak', $umur, '$nomor_telepon', '$alamat', 'user')";
     
     if ($mysqli->query($sql) === TRUE) {
         // kesalahannya tadi, $mysqli di tulis $conn, sedangkan di file connect.php ditulis $mysqli, makanya eror
         // kalau berhasil tambah data, kembali ke halaman login, dan berikan alert berhasil register
-        $messages = "Berhasil Mendaftarkan Akun";
+        $_SESSION['message'] = "Berhasil Mendaftarkan Akun";
+        $_SESSION['color_alert'] = "success";
         header("Location: ../pages/login.php");
         exit;
     } else {
         // Kalau gagal, kembali ke halaman register dan berikan alert gagal register
-        $messages = "Gagal Mendaftarkan Akun";
         echo "Error: " . $sql . "<br>" . $mysqli->error;
+        $_SESSION['message'] = "Gagal Mendaftarkan Akun";
+        $_SESSION['color_alert'] = "danger";
         header("Location: ../pages/register.php");
         exit;
     }

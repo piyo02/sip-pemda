@@ -2,7 +2,7 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `symptoms`;";
+  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
 
   $sql = mysqli_query($mysqli, $query);
 ?>
@@ -46,7 +46,7 @@
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index.html" class="brand-link">
+        <a href="/sip_pemda" class="brand-link">
           <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
           <span class="brand-text font-weight-light">SIP-PEMDA</span>
@@ -58,7 +58,7 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.php" class="d-block">Administrator</a>
+              <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
             </div>
           </div>
 
@@ -139,7 +139,9 @@
                         <tr>
                           <th>#</th>
                           <th>Nama Penyakit</th>
+                          <?php if($_SESSION['role'] == "admin"){ ?>
                           <th>Aksi</th>
+                          <?php } ?>
                         </tr>
                       </thead>
                       <tbody>
@@ -149,11 +151,13 @@
                         ?>
                         <tr>
                           <td><?php echo $number++; ?></td>
-                          <td><?php echo $datas['name']; ?></td>
+                          <td><?php echo $datas['nama']; ?></td>
+                          <?php if($_SESSION['role'] == "admin"){ ?>
                           <td>
                               <a href="edit_symptoms.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
                               <a href="../functions/delete_symptoms.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
                           </td>
+                          <?php } ?>
                         </tr>
                         <?php } ?>
                       </tbody>

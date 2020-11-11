@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,16 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Log In</p>
-
+      <!-- jika ada data session message, tampilkan pesan tersebut -->
+      <?php if(isset($_SESSION['message'])){ ?>
+      <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php echo $_SESSION['message']; ?>
+      </div>
+      <?php 
+        unset($_SESSION['message']);
+        unset($_SESSION['color_alert']);
+      } ?>
       <form action="../functions/login.php" method="post">
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" id="email" name="email">
@@ -47,7 +57,7 @@
       </form>
 
       <p class="mb-1">
-        <a href="register.php" class="text-center float-right">Register a new membership</a>
+        <a href="register.php" class="text-center float-right mt-2">Daftar Akun</a>
       </p>
     </div>
   </div>

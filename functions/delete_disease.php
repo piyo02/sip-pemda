@@ -3,10 +3,10 @@
     include 'session.php';
 
     $id = $_GET['id'];
-    $sql = "DELETE FROM `diseases` WHERE `diseases`.`id` = $id";
+    $sql = "DELETE FROM `penyakit` WHERE `penyakit`.`id` = $id";
 
     if ($mysqli->query($sql) === TRUE) {
-        $sql = "DELETE FROM `symp_of_disease` WHERE `symp_of_disease`.`disease_id` = $id";
+        $sql = "DELETE FROM `gejala_penyakit` WHERE `gejala_penyakit`.`id_penyakit` = $id";
         if ($mysqli->query($sql) != TRUE) {
             $_SESSION['message'] = "Gagal Menghapus Data Penyakit";
             $_SESSION['color_alert'] = "danger";

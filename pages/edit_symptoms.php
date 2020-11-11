@@ -3,7 +3,7 @@
     include '../functions/session.php';
     
     $id = $_GET['id'];
-    $query = "SELECT * FROM `symptoms` WHERE `id`=$id;";
+    $query = "SELECT * FROM `gejala` WHERE `id`=$id;";
 
     $sql = mysqli_query($mysqli, $query);
 ?>
@@ -121,7 +121,7 @@
                             <input type="hidden" name="id" value="<?php echo $datas['id'] ?>">
                             <div class="form-group">
                                 <label for="">Nama Gejala</label>
-                                <input type="text" class="form-control" placeholder="Nama Gejala" id="name" name="name" value="<?php echo $datas['name'] ?>">
+                                <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama" value="<?php echo $datas['nama'] ?>">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
                             <a href="symptoms.php" class="btn btn-sm btn-default">Kembali</a>
