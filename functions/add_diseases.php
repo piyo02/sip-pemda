@@ -25,7 +25,7 @@
     $filename_medicine = '../medicines/medicine_'.$filename.time().'.html'; 
     file_put_contents($filename_medicine, $obat, FILE_APPEND);
 
-    $sql = "INSERT INTO `penyakit` (`id`, `nama`, `penjelasan`, `penanganan`, `penyebab`, `medicine`)
+    $sql = "INSERT INTO `penyakit` (`id`, `nama`, `penjelasan`, `penanganan`, `penyebab`, `obat`)
             VALUES (NULL, '$nama', '$penjelasan', '$filename_handling', '$filename_cause', '$filename_medicine');";
     
     if ($mysqli->query($sql) === TRUE) {
@@ -52,7 +52,7 @@
         }
 
     } else {
-        $_SESSION['message'] = "Gagal Menambahkan Penyakit ";
+        $_SESSION['message'] = $mysqli->error;
         $_SESSION['color_alert'] = "danger";
     }
 

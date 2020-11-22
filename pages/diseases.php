@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -132,7 +136,7 @@
                   <?php 
                     } else { 
                   ?>
-                    <table class="table table-bordered">
+                    <table id="diseases" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -190,8 +194,28 @@
     <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
+  
+    <script>
+      $(function () {
+        $('#diseases').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
+    </script>
+  
   </body>
 </html>

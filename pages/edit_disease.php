@@ -8,7 +8,7 @@
     header("Location: diseases.php");
     exit;
   }
-  $query_symp = "SELECT gejala.*, gejala_penyakit.id_penyakit FROM `gejala` LEFT JOIN gejala_penyakit ON gejala_penyakit.id_gejala=gejala.id AND gejala_penyakit.id_penyakit=$id ORDER BY id ASC;";
+  $query_symp = "SELECT gejala.*, gejala_penyakit.id_penyakit FROM `gejala` LEFT JOIN gejala_penyakit ON gejala_penyakit.id_gejala=gejala.id AND gejala_penyakit.id_penyakit=$id ORDER BY nama ASC;";
   $sql_symp = mysqli_query($mysqli, $query_symp);
 
   $query_disease = "SELECT * FROM `penyakit` WHERE `id`=$id;";
@@ -146,11 +146,11 @@
                         <div class="col-2">
                           <div class="form-check">
                             <?php if($data_symp['id_penyakit'] != NULL){ ?>
-                            <input checked class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $data_symp['id']; ?>">
+                            <input checked class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_symp['id']; ?>" value="<?php echo $data_symp['id']; ?>">
                             <?php } else {?>
-                            <input class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $data_symp['id']; ?>">
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_symp['id']; ?>" value="<?php echo $data_symp['id']; ?>">
                             <?php } ?>
-                            <label class="form-check-label"><?php echo $data_symp['nama']; ?></label>
+                            <label class="form-check-label" for="<?php echo $data_symp['id']; ?>"><?php echo $data_symp['nama']; ?></label>
                           </div>
                         </div>
                         <?php } ?>

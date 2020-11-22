@@ -37,11 +37,14 @@
                     <div class="container">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"> Homepage Website <small>SIP-PEMDA</small></h1>
+                                <h1 class="m-0 text-dark"> <small>SIP-PEMDA</small></h1>
                                 <p class="mt-4">Sistem Pakar adalah sistem komputer yang bisa meniru kemampuan seorang pakar. Pakar yang dimaksud disini ialah seorang dokter spesialis anak. Tujuan dibuatnya
                                 sistem pakar diagnosa penyakit menular pada anak adalah untuk mempermudah orang tua dalam mendiagnosa penyakit yang dialami oleh anak dan dapat segera mendapatkan
                                 penanganan sesuai penyakit yang dialami oleh anak dan menghemat waktu dalam pengambilan keputusan. Bagi pakar diharapkan dapat menyimpan pengetahuan dan keahlian
                                 para pakar</p>
+                            </div>
+                            <div class="col-6">
+                                <img src="dist/img/doctor.svg" alt="">
                             </div>
                         </div>
                     </div>

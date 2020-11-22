@@ -1,5 +1,10 @@
 <?php
+  include '../connect.php';
   include '../functions/session.php';
+
+  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
+
+  $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,7 +17,6 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -104,43 +108,34 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-12 alert alert-success text-center" role="alert">
-                Silahkan Memilih Usia dan Gejala!
+                Silahkan Memilih Gejala!
               </div>
               <div class="col-12">
-                <div class="row justify-content-center">
+                <div class="row justify-content-between">
                   <div class="col-4">
                     <div class="card container p-3">
-                      <form action="diagnosis.html" method="post">
-                        <div class="form-group">
-                          <label for="age">Pilih Umur</label>
-                          <select name="age" id="age" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="disease">Pilih Gejala</label>
-                          <select name="disease" id="disease" class="form-control">
-                            <option value="Batuk">Batuk</option>
-                            <option value="Flu">Flu</option>
-                            <option value="Panas">Panas</option>
-                            <option value="Muntah">Muntah</option>
-                            <option value="Sakit Kepala">Sakit Kepala</option>
-                            <option value="Demam">Demam</option>
-                          </select>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-success">Diagnosa</button>
-                      </form>
+                      <div class="form-group">
+                        <label for="list-symptom">Tambah Gejala</label>
+                        <select name="list-symptom" id="list-symptom" class="form-control">
+                          <?php while ($datas = mysqli_fetch_assoc($sql)) { ?>
+                            <option id="G<?php echo $datas['id'] ?>" value="<?php echo $datas['id'] ?>"><?php echo $datas['nama'] ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+                      <button type="submit" class="btn btn-sm btn-success" id="tambah-gejala">Tambah</button>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <form action="diagnosis.php" method="post">
+                          <h5>Daftar Gejala Pilihan</h5>
+                          <div id="list-gejala">
+                            <input type="hidden" name="array-gejala" id="array-gejala" value="">
+                          </div>
+                          <button class="btn btn-sm btn-success" id="btn-form" disabled>Diagnosa</button>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -163,8 +158,6 @@
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../plugins/chart.js/Chart.min.js"></script>
     <script src="../plugins/sparklines/sparkline.js"></script>
-    <script src="../plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="../plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
     <script src="../plugins/jquery-knob/jquery.knob.min.js"></script>
     <script src="../plugins/moment/moment.min.js"></script>
     <script src="../plugins/daterangepicker/daterangepicker.js"></script>
@@ -174,5 +167,86 @@
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
+    <script>
+      const btnAddSymp = document.getElementById('tambah-gejala');
+      const listSymp = document.getElementById('list-symptom');
+      const listGejala = document.getElementById('list-gejala');
+      const btnForm = document.getElementById('btn-form');
+      const arrayGejala = document.getElementById('array-gejala');
+
+      function deleteSympInList(index, value) {
+        listSymp.options[index].removeAttribute('disabled');
+        $(`#${index}`).remove();
+
+        console.log(arrayGejala);
+        // ubah string pada inputan menjadi array
+        array = arrayGejala.value.split(",");
+
+        // cari index dari id gejala pada array
+        index = array.indexOf(value.toString());
+
+        // hapus gejala tersebut pada array
+        array.splice(index, 1);
+
+        // ubah value pada inputan menjadi nilai baru yang dimana gejala tadi telah di hapus
+        arrayGejala.value = array.toString();
+      }
+
+      btnAddSymp.addEventListener('click', () => {
+        const symptomValue = listSymp.value;
+        const symptomText = listSymp.options[listSymp.selectedIndex].text;
+        
+        if(!listSymp.options[listSymp.selectedIndex].disabled){
+          // buat div
+          const div = document.createElement("div");
+          div.setAttribute("class", "input-group input-group-sm mb-2")
+          div.setAttribute("id", listSymp.selectedIndex)
+
+          // buat input
+          const input = document.createElement("input");
+          input.setAttribute("class", "form-control")
+          input.setAttribute("type", "text");
+          input.setAttribute("readonly", "true");
+          input.setAttribute("value", symptomText);
+          input.setAttribute("data", symptomValue);
+          
+          // buat span
+          const span = document.createElement("span");
+          span.setAttribute("class", "input-group-append")
+
+          // buat button
+          const button = document.createElement("button");
+          button.setAttribute("class", "btn btn-danger btn-flat")
+          button.setAttribute("type", "button")
+          button.setAttribute("onclick", `deleteSympInList(${listSymp.selectedIndex}, ${symptomValue})`)
+          // tambahkan text kedalam button
+          const textButton = document.createTextNode("Hapus");
+          button.appendChild(textButton);
+
+          // tambahkan button ke dalam span
+          span.appendChild(button);
+
+          // tambahkan input ke dalam div
+          div.appendChild(input)
+
+          // tambahkan span ke dalam div
+          div.appendChild(span)
+          
+          // tambahkan div ke dalam list gejala
+          listGejala.appendChild(div)
+
+          // disable pilihan yang sudah di pilih
+          listSymp.options[listSymp.selectedIndex].disabled = "true";
+
+          arrayGejala.value = `${arrayGejala.value},${symptomValue}`;
+          
+          if( arrayGejala.value != ""){
+            btnForm.disabled = false;
+          }
+        }
+      });
+
+    </script>
+
   </body>
 </html>

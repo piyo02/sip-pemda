@@ -2,7 +2,7 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `gejala`;";
+  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
 
   $sql = mysqli_query($mysqli, $query);
 
@@ -128,8 +128,8 @@
                         ?>
                         <div class="col-2">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gejala[]" id="gejala" value="<?php echo $datas['id']; ?>">
-                            <label class="form-check-label"><?php echo $datas['nama']; ?></label>
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id']; ?>" value="<?php echo $datas['id']; ?>">
+                            <label class="form-check-label" for="<?php echo $datas['id']; ?>"><?php echo $datas['nama']; ?></label>
                           </div>
                         </div>
                         <?php } ?>
