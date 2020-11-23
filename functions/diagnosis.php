@@ -26,7 +26,7 @@
 
         // cek data awal dengan rule
         foreach ($rules as $key => $rule) {
-            $persentasi_gejala = 0;
+            $persentasi_gejala_forward = 0;
             $banyak_gejala_cocok = 0;
             $banyak_gejala_tidak_cocok = 0;
             foreach ($symptoms as $symptom) {
@@ -37,10 +37,10 @@
                 }
             }
 
-            $persentasi_gejala = $banyak_gejala_cocok/count($rule)*100;
-            if($persentasi_gejala > $persentasi_kecocokan && $banyak_gejala_cocok > $kecocokan_gejala){
+            $persentasi_gejala_forward = $banyak_gejala_cocok/count($rule)*100;
+            if($persentasi_gejala_forward > $persentasi_kecocokan && $banyak_gejala_cocok > $kecocokan_gejala){
                 $penyakit               = $key;
-                $persentasi_kecocokan   = $persentasi_gejala;
+                $persentasi_kecocokan   = $persentasi_gejala_forward;
                 $kecocokan_gejala       = $banyak_gejala_cocok;
                 $ketidakcocokan_gejala  = $banyak_gejala_tidak_cocok;
             }
@@ -48,6 +48,30 @@
 
         // backward chaining
 
+        $query = "SELECT gejala_penyakit.id_gejala FROM `gejala_penyakit` WHERE id=$penyakit
+                    ORDER BY id_gejala ASC";
+        $sql = mysqli_query($mysqli, $query);
+
+        while($datas = mysqli_fetch_assoc($sql)){
+            $rule_backward[] = (int) $datas['id_gejala'];
+        }
+
+        $banyak_gejala_cocok = 0;
+        $banyak_gejala_tidak_cocok = 0;
+        foreach ($symptoms as $symptom) {
+            if(in_array((int) $symptom, $rule_backward)){
+                $banyak_gejala_cocok++;
+            } else {
+                $banyak_gejala_tidak_cocok++;
+            }
+        }
+        $persentasi_gejala_backward = $banyak_gejala_cocok/count($rule_backward)*100;
+
+        if($persentasi_gejala_backward == $persentasi_gejala_forward){
+            $s = "benar";
+        } else {
+            $s = "salah";
+        }
 
         // query gejala dan penyakit
         $id_gejala = join(",", $symptoms);
