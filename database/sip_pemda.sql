@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 22 Nov 2020 pada 22.17
+-- Generation Time: 23 Nov 2020 pada 18.36
 -- Versi Server: 5.7.32-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.7
 
@@ -36,14 +36,13 @@ CREATE TABLE `gejala` (
 --
 
 INSERT INTO `gejala` (`id`, `nama`) VALUES
-(1, 'Anoreksia (nafsu makan tidak ada)'),
+(1, 'Nafsu Makan Tidak Ada (Anoreksia)'),
 (2, 'BAB cair/lembek'),
 (3, 'BAB cair/lembek disertai ampas atau darah'),
 (4, 'sesak napas'),
 (5, 'Demam'),
 (6, 'Tenggorokan Hiperemesis'),
 (7, 'Pilek'),
-(8, 'Sakit Kepala'),
 (9, 'Nyeri Otot'),
 (10, 'Batuk'),
 (11, 'Banyak Minum'),
@@ -59,31 +58,28 @@ INSERT INTO `gejala` (`id`, `nama`) VALUES
 (21, 'kesulitan makan/minum'),
 (22, 'lama terjadi diare'),
 (23, 'lesu / malas'),
-(24, 'mual, muntah'),
 (25, 'muka merah'),
 (26, 'nyeri kepala'),
 (28, 'nyeri perut'),
 (29, 'perasaan tidak puas saat BAB'),
 (30, 'susah BAB'),
 (31, 'batuk berulang pada malam hari'),
-(32, 'sakit tenggorokan'),
+(32, 'Nyeri Tenggorokan'),
 (33, 'batuk lama (> 2 minggu)'),
 (34, 'batuk setelah beraktivitas'),
 (35, 'buang angin berlebihan'),
-(37, 'bulla hipopion'),
+(37, 'Benjolan berisi Cairan pada kulit'),
 (38, 'demam lama tanpa sebab jelas, disertai keringat malam'),
 (39, 'diare akut yang tidak sembuh dengan pengobatan diare'),
 (40, 'eritema'),
 (41, 'eritema dan vesikel cepat pecah menjadi krusta tebal berwarna kuning tebal'),
 (42, 'gelisah'),
-(43, 'lemah'),
 (44, 'lemah badan'),
 (45, 'mual kadang muntah'),
 (46, 'muntah'),
 (47, 'nyeri kepala ringan'),
 (48, 'perut kembung'),
-(49, 'riwayat asma pada keluarga'),
-(50, 'sesak');
+(49, 'riwayat asma pada keluarga');
 
 -- --------------------------------------------------------
 
