@@ -124,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-7">
                     <?php
                         while ($data = mysqli_fetch_assoc($sql_penyakit)) {
                     ?>

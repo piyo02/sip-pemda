@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 23 Nov 2020 pada 18.36
+-- Generation Time: 24 Nov 2020 pada 05.32
 -- Versi Server: 5.7.32-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.7
 
@@ -49,7 +49,7 @@ INSERT INTO `gejala` (`id`, `nama`) VALUES
 (12, 'Batuk di akhiri bunyi whoop (Batuk Rejan)'),
 (13, 'batuk kering kemudian berdahak'),
 (14, 'berat badan turun tanpa sebab'),
-(15, 'Terdapat bula'),
+(15, 'Terdapat benjolan kecil yang dengan cepat membesar menjadi benjolan besar berisi cairan (bula)'),
 (16, 'demam tidak terlalu tinggi'),
 (17, 'diare'),
 (18, 'feses keras'),
@@ -68,7 +68,7 @@ INSERT INTO `gejala` (`id`, `nama`) VALUES
 (33, 'batuk lama (> 2 minggu)'),
 (34, 'batuk setelah beraktivitas'),
 (35, 'buang angin berlebihan'),
-(37, 'Benjolan berisi Cairan pada kulit'),
+(37, 'Benjolan berisi Cairan berwarna kuning gelap seperti nanah pada kulit (bula hipopion)'),
 (38, 'demam lama tanpa sebab jelas, disertai keringat malam'),
 (39, 'diare akut yang tidak sembuh dengan pengobatan diare'),
 (40, 'eritema'),
