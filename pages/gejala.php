@@ -1,11 +1,10 @@
 <?php 
-    include '../connect.php';
-    include '../functions/session.php';
-    
-    $id = $_GET['id'];
-    $query = "SELECT * FROM `gejala` WHERE `id`=$id;";
+  include '../connect.php';
+  include '../functions/session.php';
 
-    $sql = mysqli_query($mysqli, $query);
+  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
+
+  $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,6 +18,10 @@
     <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -35,17 +38,19 @@
           </li>
         </ul>
 
+        <!-- codingan untuk tombol logout -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="logout.html">
-              <i class="fas fa-sign-out-alt"></i>
+            <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
+        <!-- codingan untuk tombol logout -->
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index.html" class="brand-link">
+        <a href="/sip_pemda" class="brand-link">
           <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
           <span class="brand-text font-weight-light">SIP-PEMDA</span>
@@ -57,7 +62,7 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.html" class="d-block">Administrator</a>
+              <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
             </div>
           </div>
 
@@ -72,7 +77,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link">
+                <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -80,7 +85,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link active">
+                <a href="gejala.php" class="nav-link active">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -97,7 +102,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Edit Gejala</h1>
+                <h1 class="m-0 text-dark">Daftar Gejala</h1>
               </div>
             </div>
           </div>
@@ -106,29 +111,64 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <div class="card col-12">
-                <div class="card-header col-12">
-                    
+              <!-- jika ada data session message, tampilkan pesan tersebut -->
+              <?php if(isset($_SESSION['message'])){ ?>
+              <div class="col-12">
+                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <?php echo $_SESSION['message']; ?>
                 </div>
+              </div>
+              <?php 
+                unset($_SESSION['message']);
+                unset($_SESSION['color_alert']);
+              } ?>
+              
+              <div class="card col-12">
+              <!-- tombol tambah muncul hanya untuk user dengan role admin -->
+              <?php if($_SESSION['role'] == "admin"){ ?>
+                <div class="card-header col-12">
+                  <a href="tambah_gejala.php" class="btn btn-sm btn-primary float-right">Tambah Gejala</a>
+                </div>
+              <?php } ?>
                 <div class="card-body">
-                    <?php if(mysqli_num_rows($sql) == 0){ // artinya data tidak ada
-                        header("Location: symptoms.php");
-                    } else {
-                        while($datas = mysqli_fetch_assoc($sql)){
+                  <?php
+                    if(mysqli_num_rows($sql) == 0){ ?>
+                      Tidak ada data tentang Gejala
+                  <?php 
+                    } else { 
+                  ?>
+                    <table id="tabel-gejala" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Nama Penyakit</th>
+                          <?php if($_SESSION['role'] == "admin"){ ?>
+                          <th>Aksi</th>
+                          <?php } ?>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php 
+                          $number = 1;
+                          while($datas = mysqli_fetch_assoc($sql)){ 
                         ?>
-                        <form action="../functions/edit_symptoms.php" method="post">
-                            <!-- type hidden berarti inputannya tersembunyi atau tidak kelihatan di halaman -->
-                            <input type="hidden" name="id" value="<?php echo $datas['id'] ?>">
-                            <div class="form-group">
-                                <label for="">Nama Gejala</label>
-                                <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama" value="<?php echo $datas['nama'] ?>">
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
-                            <a href="symptoms.php" class="btn btn-sm btn-default">Kembali</a>
-                        </form>
-                    <?php }
+                        <tr>
+                          <td><?php echo $number++; ?></td>
+                          <td><?php echo $datas['nama']; ?></td>
+                          <?php if($_SESSION['role'] == "admin"){ ?>
+                          <td>
+                              <a href="edit_gejala.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
+                              <a href="../functions/hapus_gejala.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
+                          </td>
+                          <?php } ?>
+                        </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  <?php
                     }
-                    ?>
+                  ?>
                 </div>
               </div>
             </div>
@@ -157,8 +197,27 @@
     <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
+
+    <script>
+      $(function () {
+        $('#tabel-gejala').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
+    </script>
   </body>
 </html>

@@ -27,11 +27,24 @@
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data
         $_SESSION['message'] = "Berhasil Mengubah data Penyakit!";
         $_SESSION['color_alert'] = "success";
+
+        $gejala = $_POST['gejala'];
+        if(count($gejala) > 0){
+            $sql = "DELETE FROM `gejala_penyakit` WHERE `id_penyakit`=$id;";
+            $mysqli->query($sql);
+
+            $sql = "INSERT INTO `gejala_penyakit` (`id`, `id_penyakit`, `id_gejala`) VALUES ";
+            foreach ($gejala as $id_gejala) {
+                $sql .= "(NULL, $id, $id_gejala), ";
+            }
+            $sql = rtrim($sql, ', ');
+            $mysqli->query($sql);
+        }
     } else {
         // Kalau gagal, kembali ke halaman gejala dan berikan alert gagal tambah data
         $_SESSION['message'] = "Gagal Mengubah data Penyakit!";
         $_SESSION['color_alert'] = "danger";
     }
-    header("Location: ../pages/diseases.php");
+    header("Location: ../pages/penyakit.php");
     exit;
 ?>

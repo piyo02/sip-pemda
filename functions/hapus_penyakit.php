@@ -19,7 +19,7 @@
         $_SESSION['message'] = "Gagal Menghapus Data Penyakit";
         $_SESSION['color_alert'] = "danger";
     }
-    header("Location: ../pages/diseases.php");
+    header("Location: ../pages/penyakit.php");
     exit;
 
 ?>

@@ -72,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link">
+                <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -80,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link">
+                <a href="gejala.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala

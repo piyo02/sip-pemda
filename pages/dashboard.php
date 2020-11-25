@@ -73,7 +73,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link">
+                <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -81,7 +81,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link">
+                <a href="gejala.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -115,8 +115,8 @@
                   <div class="col-4">
                     <div class="card container p-3">
                       <div class="form-group">
-                        <label for="list-symptom">Tambah Gejala</label>
-                        <select name="list-symptom" id="list-symptom" class="form-control">
+                        <label for="daftar-gejala">Tambah Gejala</label>
+                        <select name="daftar-gejala" id="daftar-gejala" class="form-control">
                           <?php while ($datas = mysqli_fetch_assoc($sql)) { ?>
                             <option id="G<?php echo $datas['id'] ?>" value="<?php echo $datas['id'] ?>"><?php echo $datas['nama'] ?></option>
                           <?php } ?>
@@ -169,13 +169,13 @@
     <script src="../dist/js/demo.js"></script>
     <script>
       const btnAddSymp = document.getElementById('tambah-gejala');
-      const listSymp = document.getElementById('list-symptom');
+      const daftarGejala = document.getElementById('daftar-gejala');
       const listGejala = document.getElementById('list-gejala');
       const btnForm = document.getElementById('btn-form');
       const arrayGejala = document.getElementById('array-gejala');
 
       function deleteSympInList(index, value) {
-        listSymp.options[index].removeAttribute('disabled');
+        daftarGejala.options[index].removeAttribute('disabled');
         $(`#${index}`).remove();
 
         console.log(arrayGejala);
@@ -193,14 +193,14 @@
       }
 
       btnAddSymp.addEventListener('click', () => {
-        const symptomValue = listSymp.value;
-        const symptomText = listSymp.options[listSymp.selectedIndex].text;
+        const symptomValue = daftarGejala.value;
+        const symptomText = daftarGejala.options[daftarGejala.selectedIndex].text;
         
-        if(!listSymp.options[listSymp.selectedIndex].disabled){
+        if(!daftarGejala.options[daftarGejala.selectedIndex].disabled){
           // buat div
           const div = document.createElement("div");
           div.setAttribute("class", "input-group input-group-sm mb-2")
-          div.setAttribute("id", listSymp.selectedIndex)
+          div.setAttribute("id", daftarGejala.selectedIndex)
 
           // buat input
           const input = document.createElement("input");
@@ -218,7 +218,7 @@
           const button = document.createElement("button");
           button.setAttribute("class", "btn btn-danger btn-flat")
           button.setAttribute("type", "button")
-          button.setAttribute("onclick", `deleteSympInList(${listSymp.selectedIndex}, ${symptomValue})`)
+          button.setAttribute("onclick", `deleteSympInList(${daftarGejala.selectedIndex}, ${symptomValue})`)
           // tambahkan text kedalam button
           const textButton = document.createTextNode("Hapus");
           button.appendChild(textButton);
@@ -236,7 +236,7 @@
           listGejala.appendChild(div)
 
           // disable pilihan yang sudah di pilih
-          listSymp.options[listSymp.selectedIndex].disabled = "true";
+          daftarGejala.options[daftarGejala.selectedIndex].disabled = "true";
 
           arrayGejala.value = `${arrayGejala.value},${symptomValue}`;
           

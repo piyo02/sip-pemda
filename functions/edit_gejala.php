@@ -1,22 +1,22 @@
 <?php
+
     include '../connect.php';
     include 'session.php';
 
+    $id = $_POST['id'];
     $nama = $_POST['nama'];
 
-    $sql = "INSERT INTO `gejala` (`id`, `nama`)
-            VALUES (NULL, '$nama');";
+    $sql = "UPDATE `gejala` SET `nama` = '$nama' WHERE `gejala`.`id` = $id;";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data
-        $_SESSION['message'] = "Berhasil Menambahkan Gejala!";
+        $_SESSION['message'] = "Berhasil Mengubah data Gejala!";
         $_SESSION['color_alert'] = "success";
     } else {
         // Kalau gagal, kembali ke halaman gejala dan berikan alert gagal tambah data
-        $_SESSION['message'] = "Gagal Menambahkan Gejala!";
-        $_SESSION['color_alert'] = "danger";   
+        $_SESSION['message'] = "Gagal Mengubah data Gejala!";
+        $_SESSION['color_alert'] = "danger";
     }
-    header("Location: ../pages/symptoms.php");
+    header("Location: ../pages/gejala.php");
     exit;
-
 ?>

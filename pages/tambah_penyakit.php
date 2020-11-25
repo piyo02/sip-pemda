@@ -2,8 +2,10 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `penyakit`;";
+  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
+
   $sql = mysqli_query($mysqli, $query);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,10 +19,6 @@
     <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
-
-    <!-- DataTables -->
-    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -37,15 +35,13 @@
           </li>
         </ul>
 
-        <!-- codingan untuk tombol logout -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
-              <i class="fas fa-sign-out-alt"></i>  Log Out
+              <i class="fas fa-sign-out-alt"></i>
             </a>
           </li>
         </ul>
-        <!-- codingan untuk tombol logout -->
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -61,7 +57,7 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
+              <a href="profil.php" class="d-block">Administrator</a>
             </div>
           </div>
 
@@ -76,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link active">
+                <a href="penyakit.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -84,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link">
+                <a href="gejala.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -101,7 +97,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Daftar Penyakit</h1>
+                <h1 class="m-0 text-dark">Tambah Penyakit</h1>
               </div>
             </div>
           </div>
@@ -110,62 +106,53 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <!-- jika ada data session message, tampilkan pesan tersebut -->
-              <?php if(isset($_SESSION['message'])){ ?>
-              <div class="col-12">
-                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <?php echo $_SESSION['message']; ?>
-                </div>
-              </div>
-              <?php 
-                unset($_SESSION['message']);
-                unset($_SESSION['color_alert']);
-              } ?>
-              
               <div class="card col-12">
-              <?php if($_SESSION['role'] == "admin"){ ?>
                 <div class="card-header col-12">
-                    <a href="add_disease.php" class="btn btn-sm btn-primary float-right">Tambah Penyakit</a>
+                    
                 </div>
-              <?php } ?>
                 <div class="card-body">
-                <?php
-                    if(mysqli_num_rows($sql) == 0){ ?>
-                      Tidak ada data tentang Penyakit
-                  <?php 
-                    } else { 
-                  ?>
-                    <table id="diseases" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nama Penyakit</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <?php 
-                            $number = 1;
-                            while($datas = mysqli_fetch_assoc($sql)){ 
-                          ?>
-                            <tr>
-                              <td><?php echo $number++; ?></td>
-                              <td><?php echo $datas['nama']; ?></td>
-                              <td>
-                                  <a href="detail_disease.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-primary">Penjelasan</a>
-                                  <?php if($_SESSION['role'] == "admin"){ ?>
-                                  <a href="edit_disease.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
-                                  <a href="../functions/delete_disease.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus penyakit ini?');" class="btn btn-sm btn-danger">Hapus</a>
-                                  <?php } ?>
-                              </td>
-                            </tr>
-                          <?php } ?>
-                        </tbody>
-                    </table>
-                    <?php
-                    }
-                  ?>
+                  <form action="../functions/tambah_penyakit.php" method="post">
+                    <div class="form-group">
+                      <label for="">Nama Penyakit</label>
+                      <input type="text" class="form-control" placeholder="Nama Penyakit" id="nama" name="nama">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Deskripsi Penyakit</label>
+                      <textarea name="penjelasan" id="penjelasan" rows="5" class="form-control" placeholder="Deskripsi Penyakit"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Gejala</label>
+                      <div class="row">
+                        <?php 
+                          while($datas = mysqli_fetch_assoc($sql)){ 
+                        ?>
+                        <div class="col-2">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id']; ?>" value="<?php echo $datas['id']; ?>">
+                            <label class="form-check-label" for="<?php echo $datas['id']; ?>"><?php echo $datas['nama']; ?></label>
+                          </div>
+                        </div>
+                        <?php } ?>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Penyebab</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="penyebab" id="penyebab"
+                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Penanganan</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="penanganan" id="penanganan"
+                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Obat</label>
+                      <textarea class="textarea" placeholder="Place some text here" name="obat" id="obat"
+                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary mr-2">Tambah</button>
+                    <a href="penyakit.php" class="btn btn-sm btn-default">Kembali</a>
+                  </form>
                 </div>
               </div>
             </div>
@@ -194,28 +181,13 @@
     <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-
-    <!-- DataTables -->
-    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
-  
     <script>
       $(function () {
-        $('#diseases').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
-        });
-      });
+        $('.textarea').summernote()
+      })
     </script>
-  
   </body>
 </html>

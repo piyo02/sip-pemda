@@ -15,7 +15,7 @@
         $_SESSION['message'] = "Gagal Menghapus Gejala";
         $_SESSION['color_alert'] = "danger";
     }
-    header("Location: ../pages/symptoms.php");
+    header("Location: ../pages/gejala.php");
     exit;
 
 ?>

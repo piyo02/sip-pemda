@@ -1,9 +1,8 @@
-<?php 
+<?php
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
-
+  $query = "SELECT * FROM `penyakit`;";
   $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
@@ -77,7 +76,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link">
+                <a href="penyakit.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -85,7 +84,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link active">
+                <a href="gejala.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -102,7 +101,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Daftar Gejala</h1>
+                <h1 class="m-0 text-dark">Daftar Penyakit</h1>
               </div>
             </div>
           </div>
@@ -125,48 +124,46 @@
               } ?>
               
               <div class="card col-12">
-              <!-- tombol tambah muncul hanya untuk user dengan role admin -->
               <?php if($_SESSION['role'] == "admin"){ ?>
                 <div class="card-header col-12">
-                  <a href="add_symptoms.php" class="btn btn-sm btn-primary float-right">Tambah Gejala</a>
+                    <a href="tambah_penyakit.php" class="btn btn-sm btn-primary float-right">Tambah Penyakit</a>
                 </div>
               <?php } ?>
                 <div class="card-body">
-                  <?php
+                <?php
                     if(mysqli_num_rows($sql) == 0){ ?>
-                      Tidak ada data tentang Gejala
+                      Tidak ada data tentang Penyakit
                   <?php 
                     } else { 
                   ?>
-                    <table id="symptoms" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Nama Penyakit</th>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <th>Aksi</th>
+                    <table id="tabel-penyakit" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Penyakit</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            $number = 1;
+                            while($datas = mysqli_fetch_assoc($sql)){ 
+                          ?>
+                            <tr>
+                              <td><?php echo $number++; ?></td>
+                              <td><?php echo $datas['nama']; ?></td>
+                              <td>
+                                  <a href="detail_penyakit.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-primary">Penjelasan</a>
+                                  <?php if($_SESSION['role'] == "admin"){ ?>
+                                  <a href="edit_penyakit.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
+                                  <a href="../functions/hapus_penyakit.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus penyakit ini?');" class="btn btn-sm btn-danger">Hapus</a>
+                                  <?php } ?>
+                              </td>
+                            </tr>
                           <?php } ?>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                          $number = 1;
-                          while($datas = mysqli_fetch_assoc($sql)){ 
-                        ?>
-                        <tr>
-                          <td><?php echo $number++; ?></td>
-                          <td><?php echo $datas['nama']; ?></td>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <td>
-                              <a href="edit_symptoms.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
-                              <a href="../functions/delete_symptoms.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
-                          </td>
-                          <?php } ?>
-                        </tr>
-                        <?php } ?>
-                      </tbody>
+                        </tbody>
                     </table>
-                  <?php
+                    <?php
                     }
                   ?>
                 </div>
@@ -201,14 +198,14 @@
     <!-- DataTables -->
     <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-
+    
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
-
+  
     <script>
       $(function () {
-        $('#symptoms').DataTable({
+        $('#tabel-penyakit').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": false,
@@ -219,5 +216,6 @@
         });
       });
     </script>
+  
   </body>
 </html>

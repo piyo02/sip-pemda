@@ -1,11 +1,11 @@
-<?php
-  include '../connect.php';
-  include '../functions/session.php';
+<?php 
+    include '../connect.php';
+    include '../functions/session.php';
+    
+    $id = $_GET['id'];
+    $query = "SELECT * FROM `gejala` WHERE `id`=$id;";
 
-  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
-
-  $sql = mysqli_query($mysqli, $query);
-
+    $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +45,7 @@
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="index.html" class="brand-link">
+        <a href="/sip_pemda" class="brand-link">
           <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
               style="opacity: .8">
           <span class="brand-text font-weight-light">SIP-PEMDA</span>
@@ -57,7 +57,7 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.html" class="d-block">Administrator</a>
+              <a href="profil.php" class="d-block">Administrator</a>
             </div>
           </div>
 
@@ -72,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link active">
+                <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -80,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link">
+                <a href="gejala.php" class="nav-link active">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -97,7 +97,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Tambah Penyakit</h1>
+                <h1 class="m-0 text-dark">Edit Gejala</h1>
               </div>
             </div>
           </div>
@@ -111,48 +111,24 @@
                     
                 </div>
                 <div class="card-body">
-                  <form action="../functions/add_diseases.php" method="post">
-                    <div class="form-group">
-                      <label for="">Nama Penyakit</label>
-                      <input type="text" class="form-control" placeholder="Nama Penyakit" id="nama" name="nama">
-                    </div>
-                    <div class="form-group">
-                      <label for="">Deskripsi Penyakit</label>
-                      <textarea name="penjelasan" id="penjelasan" rows="5" class="form-control" placeholder="Deskripsi Penyakit"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Gejala</label>
-                      <div class="row">
-                        <?php 
-                          while($datas = mysqli_fetch_assoc($sql)){ 
+                    <?php if(mysqli_num_rows($sql) == 0){ // artinya data tidak ada
+                        header("Location: gejala.php");
+                    } else {
+                        while($datas = mysqli_fetch_assoc($sql)){
                         ?>
-                        <div class="col-2">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id']; ?>" value="<?php echo $datas['id']; ?>">
-                            <label class="form-check-label" for="<?php echo $datas['id']; ?>"><?php echo $datas['nama']; ?></label>
-                          </div>
-                        </div>
-                        <?php } ?>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Penyebab</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="penyebab" id="penyebab"
-                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Penanganan</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="penanganan" id="penanganan"
-                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="">Obat</label>
-                      <textarea class="textarea" placeholder="Place some text here" name="obat" id="obat"
-                            style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-sm btn-primary mr-2">Tambah</button>
-                    <a href="diseases.php" class="btn btn-sm btn-default">Kembali</a>
-                  </form>
+                        <form action="../functions/edit_gejala.php" method="post">
+                            <!-- type hidden berarti inputannya tersembunyi atau tidak kelihatan di halaman -->
+                            <input type="hidden" name="id" value="<?php echo $datas['id'] ?>">
+                            <div class="form-group">
+                                <label for="">Nama Gejala</label>
+                                <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama" value="<?php echo $datas['nama'] ?>">
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
+                            <a href="gejala.php" class="btn btn-sm btn-default">Kembali</a>
+                        </form>
+                    <?php }
+                    }
+                    ?>
                 </div>
               </div>
             </div>
@@ -184,10 +160,5 @@
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
-    <script>
-      $(function () {
-        $('.textarea').summernote()
-      })
-    </script>
   </body>
 </html>

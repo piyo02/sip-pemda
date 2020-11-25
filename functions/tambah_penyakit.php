@@ -12,34 +12,34 @@
 
     $penyebab = $_POST['penyebab'];
     // membuat file di folder causes untuk menyimpan penyebab penyakit
-    $filename_cause = '../causes/cause_'.$filename.time().'.html';
-    file_put_contents($filename_cause, $penyebab, FILE_APPEND);
+    $filename_penyebab = '../causes/cause_'.$filename.time().'.html';
+    file_put_contents($filename_penyebab, $penyebab, FILE_APPEND);
 
     $penanganan = $_POST['penanganan'];
     // membuat file di folder handlings untuk menyimpan penanganan penyakit
-    $filename_handling = '../handlings/handling_'.$filename.time().'.html';
-    file_put_contents($filename_handling, $penanganan, FILE_APPEND);
+    $filename_penanganan = '../handlings/handling_'.$filename.time().'.html';
+    file_put_contents($filename_penanganan, $penanganan, FILE_APPEND);
 
     $obat = $_POST['obat'];
     // membuat file di folder medicines untuk menyimpan obat penyakit
-    $filename_medicine = '../medicines/medicine_'.$filename.time().'.html'; 
-    file_put_contents($filename_medicine, $obat, FILE_APPEND);
+    $filename_obat = '../medicines/medicine_'.$filename.time().'.html'; 
+    file_put_contents($filename_obat, $obat, FILE_APPEND);
 
     $sql = "INSERT INTO `penyakit` (`id`, `nama`, `penjelasan`, `penanganan`, `penyebab`, `obat`)
-            VALUES (NULL, '$nama', '$penjelasan', '$filename_handling', '$filename_cause', '$filename_medicine');";
+            VALUES (NULL, '$nama', '$penjelasan', '$filename_penanganan', '$filename_penyebab', '$filename_obat');";
     
     if ($mysqli->query($sql) === TRUE) {
         // id dari penyakit yang baru di insertkan ke database, digunakan untuk insert data gejala ke table symp_of_disease
-        $disease_id = $mysqli->insert_id;
+        $id_penyakit = $mysqli->insert_id;
         $_SESSION['message'] = "Berhasil Menambahkan Penyakit";
         $_SESSION['color_alert'] = "success";
 
-        $symptoms = $_POST['gejala'];
+        $gejala = $_POST['gejala'];
         // jika memiliki gejala, baru di jalankan sql untuk menyimpan gejala-gejala dari penyakit
-        if(count($symptoms) > 0){
+        if(count($gejala) > 0){
             $sql = "INSERT INTO `gejala_penyakit` (`id`, `id_penyakit`, `id_gejala`) VALUES ";
-            foreach ($symptoms as $symptom_id) {
-                $sql .= "(NULL, $disease_id, $symptom_id), ";
+            foreach ($gejala as $id_gejala) {
+                $sql .= "(NULL, $id_penyakit, $id_gejala), ";
             }
             $sql = rtrim($sql, ', ');
             // jika gagal, maka hapus data penyakit yang baru ditambahkan
@@ -56,7 +56,7 @@
         $_SESSION['color_alert'] = "danger";
     }
 
-    header("Location: ../pages/diseases.php");
+    header("Location: ../pages/penyakit.php");
     exit;
     
 ?>

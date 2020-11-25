@@ -5,7 +5,7 @@
     $id = $_GET['id'];
     if($id == ''){
         // fungsi untuk mengembalikan user ke halaman daftar penyakit jika id tidak ditemukan
-        header("Location: diseases.php");
+        header("Location: penyakit.php");
         exit;
     }
     $query = "SELECT * FROM `penyakit` WHERE `id`=$id;";
@@ -15,7 +15,7 @@
         // fungsi untuk mengembalikan user ke halaman daftar penyakit jika penyakit dengan id tersebut tidak ditemukan
         $_SESSION['message'] = "Detail Penyakit Tidak Ditemukan!";
         $_SESSION['color_alert'] = "warning";
-        header("Location: diseases.php");
+        header("Location: penyakit.php");
         exit;
     }
 ?>
@@ -87,7 +87,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="diseases.php" class="nav-link active">
+                <a href="penyakit.php" class="nav-link active">
                   <i class="nav-icon fas fa-disease"></i>
                   <p>
                     Daftar Penyakit
@@ -95,7 +95,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="symptoms.php" class="nav-link">
+                <a href="gejala.php" class="nav-link">
                   <i class="nav-icon fas fa-heartbeat"></i>
                   <p>
                     Daftar Gejala
@@ -123,7 +123,7 @@
             <div class="row">
               <div class="card col-12">
                 <div class="card-header col-12">
-                    <a href="diseases.php" class="btn btn-sm btn-default float-right">Kembali</a>
+                    <a href="penyakit.php" class="btn btn-sm btn-default float-right">Kembali</a>
                 </div>
                 <div class="card-body">
                     <?php 

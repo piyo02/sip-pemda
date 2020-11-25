@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 24 Nov 2020 pada 05.32
+-- Generation Time: 25 Nov 2020 pada 13.43
 -- Versi Server: 5.7.32-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.7
 
@@ -79,7 +79,8 @@ INSERT INTO `gejala` (`id`, `nama`) VALUES
 (46, 'muntah'),
 (47, 'nyeri kepala ringan'),
 (48, 'perut kembung'),
-(49, 'riwayat asma pada keluarga');
+(49, 'riwayat asma pada keluarga'),
+(51, 'mual');
 
 -- --------------------------------------------------------
 
@@ -255,12 +256,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `gejala`
 --
 ALTER TABLE `gejala`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- AUTO_INCREMENT for table `gejala_penyakit`
 --
 ALTER TABLE `gejala_penyakit`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `kategori_penyakit`
 --
@@ -270,7 +271,7 @@ ALTER TABLE `kategori_penyakit`
 -- AUTO_INCREMENT for table `penyakit`
 --
 ALTER TABLE `penyakit`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `users`
 --
