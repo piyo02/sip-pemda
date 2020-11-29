@@ -38,7 +38,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
-              <i class="fas fa-sign-out-alt"></i>
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
@@ -82,7 +82,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="dashboard.php" class="nav-link active">
+                    <a href="penyakit.php" class="nav-link active">
                       <i class="nav-icon fas fa-disease"></i>
                       <p>
                         Daftar Penyakit

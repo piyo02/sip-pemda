@@ -35,7 +35,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
-              <i class="fas fa-sign-out-alt"></i>
+              <i class="fas fa-sign-out-alt"></i>  Log Out
             </a>
           </li>
         </ul>
