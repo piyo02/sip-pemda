@@ -46,6 +46,10 @@
             }
         }
 
+        if ($kecocokan_gejala < 2){
+            $penyakit = 0;
+        }
+
         // backward chaining
 
         $query = "SELECT gejala_penyakit.id_gejala FROM `gejala_penyakit` WHERE id=$penyakit

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.6.6deb5ubuntu0.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: 25 Nov 2020 pada 13.43
+-- Generation Time: 28 Nov 2020 pada 01.38
 -- Versi Server: 5.7.32-0ubuntu0.18.04.1
 -- PHP Version: 7.2.24-0ubuntu0.18.04.7
 
@@ -36,51 +36,56 @@ CREATE TABLE `gejala` (
 --
 
 INSERT INTO `gejala` (`id`, `nama`) VALUES
-(1, 'Nafsu Makan Tidak Ada (Anoreksia)'),
+(1, 'Gangguan Makan (Anoreksia)'),
 (2, 'BAB cair/lembek'),
-(3, 'BAB cair/lembek disertai ampas atau darah'),
+(3, 'BAB disertai ampas/lendir'),
 (4, 'sesak napas'),
 (5, 'Demam'),
-(6, 'Tenggorokan Hiperemesis'),
+(6, 'Iritasi Tenggorokan (Hiperemesis)'),
 (7, 'Pilek'),
 (9, 'Nyeri Otot'),
 (10, 'Batuk'),
-(11, 'Banyak Minum'),
-(12, 'Batuk di akhiri bunyi whoop (Batuk Rejan)'),
-(13, 'batuk kering kemudian berdahak'),
-(14, 'berat badan turun tanpa sebab'),
-(15, 'Terdapat benjolan kecil yang dengan cepat membesar menjadi benjolan besar berisi cairan (bula)'),
-(16, 'demam tidak terlalu tinggi'),
+(11, 'Banyak Minum (Dehidrasi)'),
+(14, 'berat badan turun'),
+(15, 'vasikel cepat pecah'),
 (17, 'diare'),
-(18, 'feses keras'),
+(18, 'fases keras'),
 (19, 'frekuensi BAB < 3 kali'),
-(20, 'gatal pada kulit'),
-(21, 'kesulitan makan/minum'),
-(22, 'lama terjadi diare'),
-(23, 'lesu / malas'),
+(20, 'gatal'),
+(21, 'kesulitan makan'),
+(23, 'lesu'),
 (25, 'muka merah'),
 (26, 'nyeri kepala'),
 (28, 'nyeri perut'),
-(29, 'perasaan tidak puas saat BAB'),
+(29, 'BAB tidak puas'),
 (30, 'susah BAB'),
-(31, 'batuk berulang pada malam hari'),
+(31, 'batuk berulang berkarakteristik (mengi)'),
 (32, 'Nyeri Tenggorokan'),
-(33, 'batuk lama (> 2 minggu)'),
-(34, 'batuk setelah beraktivitas'),
-(35, 'buang angin berlebihan'),
+(35, 'buang angin berlebih'),
 (37, 'Benjolan berisi Cairan berwarna kuning gelap seperti nanah pada kulit (bula hipopion)'),
-(38, 'demam lama tanpa sebab jelas, disertai keringat malam'),
-(39, 'diare akut yang tidak sembuh dengan pengobatan diare'),
-(40, 'eritema'),
-(41, 'eritema dan vesikel cepat pecah menjadi krusta tebal berwarna kuning tebal'),
+(38, 'demam lama disertai keringat malam'),
 (42, 'gelisah'),
 (44, 'lemah badan'),
 (45, 'mual kadang muntah'),
 (46, 'muntah'),
 (47, 'nyeri kepala ringan'),
 (48, 'perut kembung'),
-(49, 'riwayat asma pada keluarga'),
-(51, 'mual');
+(49, 'terdapat riwayat asma'),
+(51, 'mual'),
+(52, 'Batuk Berkepanjangan'),
+(53, 'muncul gelembung pada kulit'),
+(54, 'BAB disertai darah'),
+(55, 'batuk kering'),
+(56, 'batuk berdahak'),
+(57, 'batuk berdarah'),
+(58, 'kesulitan minum'),
+(59, 'batuk pada malam/dini hari'),
+(60, 'batuk bersifat musiman'),
+(61, 'diare persisten'),
+(62, 'kemerahan pada kulit (eritema)'),
+(63, 'krusta tebal berwarna kuning seperti madu'),
+(64, 'lepuhan berisi cairan diameter â‰¥10 mm (bulla)'),
+(65, 'tampak erosi');
 
 -- --------------------------------------------------------
 
@@ -99,51 +104,69 @@ CREATE TABLE `gejala_penyakit` (
 --
 
 INSERT INTO `gejala_penyakit` (`id`, `id_penyakit`, `id_gejala`) VALUES
-(3, 1, 4),
-(4, 1, 5),
-(5, 1, 6),
-(6, 1, 7),
-(7, 1, 8),
-(8, 1, 9),
-(9, 1, 10),
-(10, 2, 1),
-(11, 2, 7),
-(12, 2, 12),
-(13, 2, 25),
-(14, 3, 1),
-(15, 3, 5),
-(16, 3, 24),
-(17, 3, 26),
-(18, 3, 28),
-(19, 3, 32),
-(20, 4, 16),
-(21, 4, 20),
-(22, 4, 26),
-(23, 5, 3),
-(24, 5, 5),
-(25, 5, 11),
-(26, 6, 18),
-(27, 6, 19),
-(28, 6, 29),
-(29, 6, 30),
-(30, 7, 17),
-(31, 7, 24),
-(32, 7, 28),
-(33, 8, 4),
-(34, 8, 5),
-(35, 8, 13),
-(36, 8, 21),
-(37, 9, 5),
-(38, 9, 10),
-(39, 9, 14),
-(40, 9, 17),
-(41, 10, 37),
-(42, 10, 40),
-(43, 10, 41),
-(44, 10, 15),
-(45, 11, 31),
-(46, 11, 34),
-(47, 11, 49);
+(55, 1, 10),
+(56, 1, 5),
+(57, 1, 6),
+(58, 1, 26),
+(59, 1, 9),
+(60, 1, 7),
+(61, 1, 4),
+(62, 2, 52),
+(63, 2, 1),
+(64, 2, 42),
+(65, 2, 25),
+(66, 2, 7),
+(67, 3, 5),
+(68, 3, 1),
+(69, 3, 44),
+(70, 3, 51),
+(71, 3, 46),
+(72, 3, 26),
+(73, 3, 28),
+(74, 3, 32),
+(75, 4, 5),
+(76, 4, 20),
+(77, 4, 44),
+(78, 4, 53),
+(79, 4, 47),
+(80, 5, 2),
+(81, 5, 3),
+(82, 5, 54),
+(83, 5, 11),
+(84, 5, 5),
+(85, 5, 46),
+(86, 6, 29),
+(87, 6, 18),
+(88, 6, 19),
+(89, 6, 30),
+(90, 7, 35),
+(91, 7, 17),
+(92, 7, 45),
+(93, 7, 28),
+(94, 7, 48),
+(95, 8, 56),
+(96, 8, 57),
+(97, 8, 55),
+(98, 8, 5),
+(99, 8, 21),
+(100, 8, 58),
+(101, 8, 44),
+(102, 8, 4),
+(103, 11, 60),
+(104, 11, 31),
+(105, 11, 59),
+(106, 11, 49),
+(107, 9, 14),
+(108, 9, 38),
+(109, 9, 61),
+(110, 9, 1),
+(111, 9, 23),
+(112, 10, 37),
+(113, 10, 62),
+(114, 10, 63),
+(115, 10, 64),
+(116, 10, 65),
+(117, 10, 15);
 
 -- --------------------------------------------------------
 
@@ -177,8 +200,8 @@ CREATE TABLE `penyakit` (
 
 INSERT INTO `penyakit` (`id`, `nama`, `penjelasan`, `penanganan`, `penyebab`, `obat`) VALUES
 (1, 'Infeksi Saluran Pernapasan Atas', 'Infeksi Saluran Pernapasan Atas (ISPA) adalah infeksi saluran pernapasan yang terjadi tidak lebih dari 14 hari, mulai dari hidung hingga paru-paru.', '../handlings/handling_infeksi_saluran_pernapasan_atas1604502975.html', '../causes/cause_infeksi_saluran_pernapasan_atas1604502975.html', '../medicines/medicine_infeksi_saluran_pernapasan_atas1604502975.html'),
-(2, 'Pertusis', 'Pertusis adalah infekssi akibat bakteri gram negatif bordetella pertusis pada saluran nafas sehingga menimbulkan batuk yang khas. Penularan penyakit ini melalui droplet pasien pertusis atau individu yang belum di imunisasi/ imunisasi tidak kuat.', '../handlings/handling_pertusis1605925029.html', '../causes/cause_pertusis1605925029.html', '../medicines/medicine_pertusis1605925029.html'),
-(3, 'Faringitis', 'Peradangan membran mutosa faring dan strukur lain di sekitarnya.', '../handlings/handling_faringitis1605925107.html', '../causes/cause_faringitis1605925107.html', '../medicines/medicine_faringitis1605925107.html'),
+(2, 'Batuk Rejan (Pertusis)', 'Pertusis adalah infekssi akibat bakteri gram negatif bordetella pertusis pada saluran nafas sehingga menimbulkan batuk yang khas. Penularan penyakit ini melalui droplet pasien pertusis atau individu yang belum di imunisasi/ imunisasi tidak kuat.', '../handlings/handling_pertusis1605925029.html', '../causes/cause_pertusis1605925029.html', '../medicines/medicine_pertusis1605925029.html'),
+(3, 'Iritasi Tenggorokan (Faringitis)', 'Peradangan membran mutosa faring dan strukur lain di sekitarnya.', '../handlings/handling_faringitis1605925107.html', '../causes/cause_faringitis1605925107.html', '../medicines/medicine_faringitis1605925107.html'),
 (4, 'Cacar Air', 'Varicella (disebut juga cacar air) adalah peyakit sangat menular yang disebabkan oleeh virus. Virus yang menyebabkan penyakit ini adalah virus varicella looster. Cara penularan dapat melalui percikan ludah atau udra, juga dapat menyebar meelalu kontak langsung atau tidak langsung dengan nanah dari gelemung dan selaput lendir orang yang terkena cacar air atau herpes zooster (penyakit kulit herpes).', '../handlings/handling_cacar_air1605925212.html', '../causes/cause_cacar_air1605925212.html', '../medicines/medicine_cacar_air1605925212.html'),
 (5, 'Diare ', 'Diare adalah suu kondisi diana seseorang buang air bear denga konsistensi lemebk (cair, bahkan dapat berupa air dan frekuensi yang lebih sering (â‰¥3x / dalam 1 hari). Penyebabnya dapat infeksi (virus,bakteri, parasit malabsorbsi, alergi,keracunan, imunodefisiensi dll) yang sering ditemukan  adalah karena infeksi dan kerracunan. Diare < 14 hari termasuk kategori akut. Diare persistan (kronik ) > 14 hari.', '../handlings/handling_diare_1605925815.html', '../causes/cause_diare_1605925815.html', '../medicines/medicine_diare_1605925815.html'),
 (6, 'Sembelit ', 'Sembelit adalah buang  air besar yan tidak memuaskan yag ditandai oleh BAB kurang dari 3 kali dalam 1 minggu atau kesulitan dalam pengeluaran fases akibat fases yang keras', '../handlings/handling_sembelit_1605925938.html', '../causes/cause_sembelit_1605925938.html', '../medicines/medicine_sembelit_1605925938.html'),
@@ -256,12 +279,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `gejala`
 --
 ALTER TABLE `gejala`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `gejala_penyakit`
 --
 ALTER TABLE `gejala_penyakit`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 --
 -- AUTO_INCREMENT for table `kategori_penyakit`
 --
@@ -271,7 +294,7 @@ ALTER TABLE `kategori_penyakit`
 -- AUTO_INCREMENT for table `penyakit`
 --
 ALTER TABLE `penyakit`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `users`
 --

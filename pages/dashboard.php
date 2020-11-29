@@ -68,25 +68,36 @@
                 <a href="dashboard.php" class="nav-link active">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
-                    Dashboard
+                    Konsultasi
                   </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="penyakit.php" class="nav-link">
-                  <i class="nav-icon fas fa-disease"></i>
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
                   <p>
-                    Daftar Penyakit
+                    Master Data
+                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="gejala.php" class="nav-link">
-                  <i class="nav-icon fas fa-heartbeat"></i>
-                  <p>
-                    Daftar Gejala
-                  </p>
-                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="penyakit.php" class="nav-link">
+                      <i class="nav-icon fas fa-disease"></i>
+                      <p>
+                        Daftar Penyakit
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="gejala.php" class="nav-link">
+                      <i class="nav-icon fas fa-heartbeat"></i>
+                      <p>
+                        Daftar Gejala
+                      </p>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </nav>
@@ -98,7 +109,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Dashboard</h1>
+                <h1 class="m-0 text-dark">Konsultasi</h1>
               </div>
             </div>
           </div>
@@ -190,6 +201,10 @@
 
         // ubah value pada inputan menjadi nilai baru yang dimana gejala tadi telah di hapus
         arrayGejala.value = array.toString();
+
+        if( arrayGejala.value = "" || array.length == 2){
+          btnForm.disabled = true;
+        }
       }
 
       btnAddSymp.addEventListener('click', () => {
@@ -239,8 +254,9 @@
           daftarGejala.options[daftarGejala.selectedIndex].disabled = "true";
 
           arrayGejala.value = `${arrayGejala.value},${symptomValue}`;
-          
-          if( arrayGejala.value != ""){
+          countArray = arrayGejala.value.split(",");
+
+          if( arrayGejala.value != "" && countArray.length > 2){
             btnForm.disabled = false;
           }
         }

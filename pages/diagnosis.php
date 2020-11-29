@@ -32,15 +32,13 @@
           </li>
         </ul>
 
-        <!-- codingan untuk tombol logout -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
-              <i class="fas fa-sign-out-alt"></i>  Log Out
+              <i class="fas fa-sign-out-alt"></i>
             </a>
           </li>
         </ul>
-        <!-- codingan untuk tombol logout -->
       </nav>
 
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -67,10 +65,19 @@
                 <a href="dashboard.php" class="nav-link active">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
-                    Dashboard
+                    Konsultasi
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
+                  <p>
+                    Master Data
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
@@ -86,6 +93,8 @@
                     Daftar Gejala
                   </p>
                 </a>
+              </li>
+                </ul>
               </li>
             </ul>
           </nav>
@@ -126,6 +135,12 @@
                     </div>
                     <div class="col-7">
                     <?php
+                      if($penyakit == 0){ ?>
+                      <div class="alert alert-danger text-center" role="alert">
+                        Tidak ditemukan penyakit yang cocok dengan gejala yang dipilih!!!
+                      </div>
+                    <?php
+                      }else{
                         while ($data = mysqli_fetch_assoc($sql_penyakit)) {
                     ?>
                         <div class="card pl-3 pt-2">
@@ -136,7 +151,7 @@
                           <div class="card-header">
                             <h3 class="card-title">Penjelasan Penyakit</h3>
                             <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-eye"></i>
                               </button>
                             </div>
                           </div>
@@ -149,7 +164,7 @@
                           <div class="card-header">
                             <h3 class="card-title">Penyebab Penyakit</h3>
                             <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-eye"></i>
                               </button>
                             </div>
                           </div>
@@ -162,7 +177,7 @@
                           <div class="card-header">
                             <h3 class="card-title">Penanganan Penyakit</h3>
                             <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-eye"></i>
                               </button>
                             </div>
                           </div>
@@ -175,7 +190,7 @@
                           <div class="card-header">
                             <h3 class="card-title">Obat Penyakit</h3>
                             <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-eye"></i>
                               </button>
                             </div>
                           </div>
@@ -183,12 +198,13 @@
                             <?php include $data['obat']; ?>
                           </div>
                         </div>
+                    <?php
+                        } 
+                      }
+                    ?>
                         <div>
                             <a href="dashboard.php" class="btn btn-sm btn-success">Kembali</a>
                         </div>
-                    <?php 
-                        }
-                    ?>
                     </div>
                 </div>
               </div>

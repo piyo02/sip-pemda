@@ -57,35 +57,47 @@
               <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="profil.php" class="d-block">Administrator</a>
+              <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
             </div>
           </div>
-
+          <!-- ini codingan untuk menu -->
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
+                <!-- href nya di sesuaikan dengan nama filenya -->
                 <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
-                    Dashboard
+                    Konsultasi
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="penyakit.php" class="nav-link active">
-                  <i class="nav-icon fas fa-disease"></i>
+              <li class="nav-item menu-open">
+                <a href="#" class="nav-link active">
+                  <i class="nav-icon fas fa-circle"></i>
                   <p>
-                    Daftar Penyakit
+                    Master Data
+                    <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="gejala.php" class="nav-link">
-                  <i class="nav-icon fas fa-heartbeat"></i>
-                  <p>
-                    Daftar Gejala
-                  </p>
-                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="dashboard.php" class="nav-link active">
+                      <i class="nav-icon fas fa-disease"></i>
+                      <p>
+                        Daftar Penyakit
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="gejala.php" class="nav-link">
+                      <i class="nav-icon fas fa-heartbeat"></i>
+                      <p>
+                        Daftar Gejala
+                      </p>
+                    </a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </nav>

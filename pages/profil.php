@@ -28,7 +28,7 @@
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -38,7 +38,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="btn btn-sm btn-secondary" href="../functions/logout.php">
-              <i class="fas fa-sign-out-alt"></i>  Log Out
+              <i class="fas fa-sign-out-alt"></i>
             </a>
           </li>
         </ul>
@@ -60,17 +60,27 @@
               <a href="profil.php" class="d-block"><?php echo $_SESSION['username'] ?></a>
             </div>
           </div>
-
+          <!-- ini codingan untuk menu -->
           <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
+                <!-- href nya di sesuaikan dengan nama filenya -->
                 <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
-                    Dashboard
+                    Konsultasi
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-circle"></i>
+                  <p>
+                    Master Data
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="penyakit.php" class="nav-link">
                   <i class="nav-icon fas fa-disease"></i>
@@ -86,6 +96,8 @@
                     Daftar Gejala
                   </p>
                 </a>
+              </li>
+                </ul>
               </li>
             </ul>
           </nav>
