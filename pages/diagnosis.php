@@ -139,6 +139,12 @@
                               ?>
                               </ul>
                             </div>
+                            <?php
+                              if($penyakit != 0){ ?>
+                              <div class="card-footer">
+                                Berdasarkan gejala yang dialami pasien, dapat disimpulkan bahwa gejala tersebut masuk ke dalam kategori penyakit <?php echo $kategori_penyakit; ?> 
+                              </div>
+                            <?php } ?>
                         </div>
                     </div>
                     <div class="col-7">
@@ -149,10 +155,9 @@
                       </div>
                     <?php
                       }else{
-                        while ($data = mysqli_fetch_assoc($sql_penyakit)) {
                     ?>
                         <div class="card pl-3 pt-2">
-                            <h5><?php echo $data['penyakit']; ?></h5>
+                            <h5><?php echo $nama_penyakit; ?></h5>
                         </div>
 
                         <div class="card collapsed-card card-info">
@@ -164,7 +169,7 @@
                             </div>
                           </div>
                           <div class="card-body">
-                            <?php echo $data['penjelasan']; ?>
+                            <?php echo $penjelasan; ?>
                           </div>
                         </div>
 
@@ -177,7 +182,7 @@
                             </div>
                           </div>
                           <div class="card-body">
-                            <?php include $data['penyebab']; ?>
+                            <?php include $penyebab; ?>
                           </div>
                         </div>
 
@@ -190,7 +195,7 @@
                             </div>
                           </div>
                           <div class="card-body">
-                            <?php include $data['penanganan']; ?>
+                            <?php include $penanganan; ?>
                           </div>
                         </div>
 
@@ -203,11 +208,10 @@
                             </div>
                           </div>
                           <div class="card-body">
-                            <?php include $data['obat']; ?>
+                            <?php include $obat; ?>
                           </div>
                         </div>
                     <?php
-                        } 
                       }
                     ?>
                         <div>

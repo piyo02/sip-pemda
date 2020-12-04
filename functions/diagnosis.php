@@ -5,7 +5,7 @@
         // data awal tentang gejala
         // $symptoms = [4, 5, 6, 7, 8, 12];
         $daftar_gejala = explode(",", trim($_POST['array-gejala'], ","));
-        
+        $id_anak = $_POST['anak'];
         // forward chaining
         // rules
         $query = "SELECT aturan_gejala.*, penyakit.penyakit FROM `aturan_gejala`
@@ -77,10 +77,12 @@
             $s = "salah";
         }
 
+
+        // memasukkan data diagnosa
         $tanggal = date('Y-m-d');
         
         $query = "INSERT INTO diagnosa (id_diagnosa, id_anak, diagnosa, tanggal)
-                    VALUES (NULL, 1, 'hasil diagnosa', '$tanggal')";
+                    VALUES (NULL, $id_anak, $penyakit, '$tanggal')";
         $sql = mysqli_query($mysqli, $query);
         $id_diagnosa = $mysqli->insert_id;
         
@@ -95,8 +97,27 @@
         $query_gejala = "SELECT * FROM `gejala` WHERE id_gejala in ($id_gejala);";
         $sql_gejala = mysqli_query($mysqli, $query_gejala);
 
-        $query_penyakit = "SELECT * FROM `penyakit` WHERE id_penyakit = $penyakit;";
+        $query_penyakit = "SELECT `penyakit`.*, 
+                                    kategori_penyakit.kategori_penyakit,
+                                    penyebab.penyebab,
+                                    obat.obat,
+                                    penanganan.penanganan
+                            FROM `penyakit`
+                            INNER JOIN kategori_penyakit ON kategori_penyakit.id_kategori_penyakit = penyakit.id_kategori_penyakit
+                            INNER JOIN obat ON obat.id_obat = penyakit.id_penyakit
+                            INNER JOIN penanganan ON penanganan.id_penanganan = penyakit.id_penyakit
+                            INNER JOIN penyebab ON penyebab.id_penyebab = penyakit.id_penyakit
+                            WHERE `id_penyakit`=$penyakit;";
         $sql_penyakit = mysqli_query($mysqli, $query_penyakit);
+
+        while( $data = mysqli_fetch_assoc($sql_penyakit) ){
+            $nama_penyakit = $data['penyakit'];
+            $kategori_penyakit = $data['kategori_penyakit'];
+            $penjelasan = $data['penjelasan'];
+            $penyebab = $data['penyebab'];
+            $penanganan = $data['penanganan'];
+            $obat = $data['obat'];
+        }
     }
 
 ?>

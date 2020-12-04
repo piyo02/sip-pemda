@@ -5,6 +5,10 @@
   $query = "SELECT * FROM `gejala` ORDER BY `gejala` ASC;";
 
   $sql = mysqli_query($mysqli, $query);
+
+  $id_wali = $_SESSION['id'];
+  $query_anak = "SELECT * FROM anak WHERE id_wali=$id_wali";
+  $sql_anak = mysqli_query($mysqli, $query_anak);
 ?>
 <!DOCTYPE html>
 <html>
@@ -145,17 +149,27 @@
                     </div>
                   </div>
                   <div class="col-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <form action="diagnosis.php" method="post">
+                    <form action="diagnosis.php" method="post">
+                      <div class="card container p-3">
+                        <div class="form-group">
+                          <label for="anak">Anak</label>
+                          <select name="anak" id="anak" class="form-control">
+                            <?php while ($datas = mysqli_fetch_assoc($sql_anak)) { ?>
+                              <option value="<?php echo $datas['id_anak'] ?>"><?php echo $datas['nama_anak'] ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-body">
                           <h5>Daftar Gejala Pilihan</h5>
                           <div id="list-gejala">
                             <input type="hidden" name="array-gejala" id="array-gejala" value="">
                           </div>
                           <button class="btn btn-sm btn-success" id="btn-form" disabled>Diagnosa</button>
-                        </form>
+                        </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
