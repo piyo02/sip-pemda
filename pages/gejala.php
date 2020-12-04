@@ -2,7 +2,7 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
+  $query = "SELECT * FROM `gejala` ORDER BY `gejala` ASC;";
 
   $sql = mysqli_query($mysqli, $query);
 ?>
@@ -100,6 +100,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -165,11 +173,11 @@
                         ?>
                         <tr>
                           <td><?php echo $number++; ?></td>
-                          <td><?php echo $datas['nama']; ?></td>
+                          <td><?php echo $datas['gejala']; ?></td>
                           <?php if($_SESSION['role'] == "admin"){ ?>
                           <td>
-                              <a href="edit_gejala.php?id=<?php echo $datas['id']; ?>" class="btn btn-sm btn-secondary">Edit</a>
-                              <a href="../functions/hapus_gejala.php?id=<?php echo $datas['id']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
+                              <a href="edit_gejala.php?id=<?php echo $datas['id_gejala']; ?>" class="btn btn-sm btn-secondary">Edit</a>
+                              <a href="../functions/hapus_gejala.php?id=<?php echo $datas['id_gejala']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
                           </td>
                           <?php } ?>
                         </tr>

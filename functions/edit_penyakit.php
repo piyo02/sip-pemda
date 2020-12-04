@@ -5,6 +5,7 @@
 
     $id = $_POST['id'];
     $nama = $_POST['nama'];
+    $kategori_penyakit = $_POST['kategori_penyakit'];
     $penjelasan = $_POST['penjelasan'];
 
     $penyebab = $_POST['penyebab'];
@@ -21,7 +22,7 @@
     file_put_contents($filename_medicine, $obat);
 
     
-    $sql = "UPDATE `penyakit` SET `nama` = '$nama', `penjelasan` = '$penjelasan' WHERE `penyakit`.`id` = $id;";
+    $sql = "UPDATE `penyakit` SET `penyakit` = '$nama', `penjelasan` = '$penjelasan', `id_kategori_penyakit` = '$kategori_penyakit' WHERE `penyakit`.`id_penyakit` = $id;";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data
@@ -30,12 +31,12 @@
 
         $gejala = $_POST['gejala'];
         if(count($gejala) > 0){
-            $sql = "DELETE FROM `gejala_penyakit` WHERE `id_penyakit`=$id;";
+            $sql = "DELETE FROM `aturan_gejala` WHERE `id_aturan`=$id;";
             $mysqli->query($sql);
 
-            $sql = "INSERT INTO `gejala_penyakit` (`id`, `id_penyakit`, `id_gejala`) VALUES ";
+            $sql = "INSERT INTO `aturan_gejala` (`id_aturan`, `id_gejala`) VALUES ";
             foreach ($gejala as $id_gejala) {
-                $sql .= "(NULL, $id, $id_gejala), ";
+                $sql .= "($id, $id_gejala), ";
             }
             $sql = rtrim($sql, ', ');
             $mysqli->query($sql);

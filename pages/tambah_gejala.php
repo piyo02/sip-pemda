@@ -91,6 +91,14 @@
                       </p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>

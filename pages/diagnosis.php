@@ -94,6 +94,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -126,7 +134,7 @@
                               <ul>
                               <?php
                                 while ($data = mysqli_fetch_assoc($sql_gejala)) {
-                                  echo "<li>".$data['nama']."</li>";
+                                  echo "<li>".$data['gejala']."</li>";
                                 }
                               ?>
                               </ul>
@@ -144,7 +152,7 @@
                         while ($data = mysqli_fetch_assoc($sql_penyakit)) {
                     ?>
                         <div class="card pl-3 pt-2">
-                            <h5><?php echo $data['nama']; ?></h5>
+                            <h5><?php echo $data['penyakit']; ?></h5>
                         </div>
 
                         <div class="card collapsed-card card-info">

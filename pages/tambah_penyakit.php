@@ -2,9 +2,11 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
-
+  $query = "SELECT * FROM `gejala` ORDER BY `gejala` ASC;";
   $sql = mysqli_query($mysqli, $query);
+
+  $query_kateg = "SELECT * FROM `kategori_penyakit` ORDER BY `kategori_penyakit` ASC;";
+  $sql_kateg = mysqli_query($mysqli, $query_kateg);
 
 ?>
 <!DOCTYPE html>
@@ -97,6 +99,14 @@
                       </p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -140,12 +150,22 @@
                         ?>
                         <div class="col-2">
                           <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id']; ?>" value="<?php echo $datas['id']; ?>">
-                            <label class="form-check-label" for="<?php echo $datas['id']; ?>"><?php echo $datas['nama']; ?></label>
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id_gejala']; ?>" value="<?php echo $datas['id_gejala']; ?>">
+                            <label class="form-check-label" for="<?php echo $datas['id_gejala']; ?>"><?php echo $datas['gejala']; ?></label>
                           </div>
                         </div>
                         <?php } ?>
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Kategori Penyakit</label>
+                      <select name="kategori_penyakit" id="kategori_penyakit" class="form-control">
+                        <?php 
+                          while($datas = mysqli_fetch_assoc($sql_kateg)){ 
+                        ?>
+                        <option value="<?php echo $datas['id_kategori_penyakit']?>"><?php echo $datas['kategori_penyakit']?></option>
+                        <?php } ?>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="">Penyebab</label>

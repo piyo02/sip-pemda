@@ -8,7 +8,17 @@
         header("Location: penyakit.php");
         exit;
     }
-    $query = "SELECT * FROM `penyakit` WHERE `id`=$id;";
+    $query = "SELECT `penyakit`.*, 
+                      kategori_penyakit.kategori_penyakit,
+                      penyebab.penyebab,
+                      obat.obat,
+                      penanganan.penanganan
+              FROM `penyakit`
+              INNER JOIN kategori_penyakit ON kategori_penyakit.id_kategori_penyakit = penyakit.id_kategori_penyakit
+              INNER JOIN obat ON obat.id_obat = penyakit.id_penyakit
+              INNER JOIN penanganan ON penanganan.id_penanganan = penyakit.id_penyakit
+              INNER JOIN penyebab ON penyebab.id_penyebab = penyakit.id_penyakit
+              WHERE `id_penyakit`=$id";
     $sql = mysqli_query($mysqli, $query);
     
     if(mysqli_num_rows($sql) == 0){
@@ -110,6 +120,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -141,7 +159,7 @@
                     ?>
                         <div class="form-group">
                             <label for="">Nama Penyakit</label>
-                            <input type="text" class="form-control" value="<?php echo $datas['nama']; ?>" readonly id="nama" name="nama">
+                            <input type="text" class="form-control" value="<?php echo $datas['penyakit']; ?>" readonly id="nama" name="nama">
                         </div>
                         <div class="form-group">
                             <label for="">Deskripsi Penyakit</label>
@@ -152,26 +170,36 @@
                             <div>
                                 <ul>
                             <?php
-                                $query_symp = "SELECT gejala_penyakit.id, gejala.nama FROM `gejala_penyakit` INNER JOIN gejala ON gejala.id = id_gejala WHERE id_penyakit=$id";
+                                $query_symp = "SELECT aturan_gejala.id_aturan, gejala.gejala FROM `aturan_gejala` INNER JOIN gejala ON gejala.id_gejala = aturan_gejala.id_gejala WHERE id_aturan=$id";
                                 $get_symp = mysqli_query($mysqli, $query_symp);
                                 while($data_symp = mysqli_fetch_assoc($get_symp)){ ?>
-                                     <li><?php echo $data_symp['nama']; ?></li>   
+                                     <li><?php echo $data_symp['gejala']; ?></li>   
                                 <?php }
                             ?>
                                 </ul>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="">Kategori Penyakit</label>
+                            <input type="text" class="form-control" value="<?php echo $datas['kategori_penyakit']; ?>" readonly id="kategori_penyakit" name="kategori_penyakit">
+                        </div>
+                        <div class="form-group">
                             <label for="">Penyebab</label>
-                            <?php include $datas['penyebab']; ?>
+                            <div>
+                              <?php include $datas['penyebab']; ?>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Penanganan</label>
-                            <?php include $datas['penanganan']; ?>
+                            <div>
+                              <?php include $datas['penanganan']; ?>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="">Obat</label>
-                            <?php include $datas['obat']; ?>
+                            <div>
+                              <?php include $datas['obat']; ?>
+                            </div>
                         </div>
                     <?php } ?>
                 </div>

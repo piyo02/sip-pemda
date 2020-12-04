@@ -1,3 +1,11 @@
+<?php
+
+  include "../connect.php";
+
+  $query = "SELECT * FROM jenis_kelamin";
+  $sql = mysqli_query($mysqli, $query);
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,13 +34,24 @@
 
   <div class="card">
     <div class="card-body register-card-body">
-      <p class="login-box-msg">Register a new membership</p>
+      <?php if(isset($_SESSION['message'])){ ?>
+      <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <?php echo $_SESSION['message']; ?>
+      </div>
+      <?php 
+        unset($_SESSION['message']);
+        unset($_SESSION['color_alert']);
+      } ?>
+      <div class="alert alert-success" role="alert">
+        Silahkan Melakukan Registrasi untuk Mendapatkan Username dan Password
+      </div>
 
       <form action="../functions/register.php" method="post"> 
       <!-- kenapa ../ karena action yang kita tuju berbeda folder, yang di tuju adalah file register.php pada folder function, sedangkan file yang sekarang diedit berada di folder pages, jadi kita keluar dulu dari folder pages dengan ../, lalu masuk ke folder functions lalu menuju file register.php -->
       <!-- untuk tiap inputan, berikan id dan name yang sama dengan kolom di database -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Lengkap" id="username" name="username">
+          <input type="text" class="form-control" placeholder="Nama Wali" id="nama_wali" name="nama_wali">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -40,7 +59,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+          <input type="text" class="form-control" placeholder="Username" id="username" name="username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -48,23 +67,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usia" id="umur" name="umur">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="No HP" id="nomor_telepon" name="nomor_telepon">
+          <input type="text" class="form-control" placeholder="No HP" id="no_hp" name="no_hp">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -88,12 +91,35 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Masukkan ulang password" id="password" name="password">
+          <input type="password" class="form-control" placeholder="Masukkan Ulang Password" id="re_password" name="re_password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
+        </div>
+        <div class="input-group mb-3 mt-5">
+          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Usia" id="umur" name="umur">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+            <?php while($data = mysqli_fetch_assoc($sql)){ ?>
+              <option value="<?php echo $data['id_jenis_kelamin']; ?>"><?php echo $data['jenis_kelamin']; ?></option>
+            <?php } ?>
+          </select>
         </div>
         <div class="row">
           <div class="col-8">

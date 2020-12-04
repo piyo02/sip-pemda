@@ -2,7 +2,7 @@
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `gejala` ORDER BY `nama` ASC;";
+  $query = "SELECT * FROM `gejala` ORDER BY `gejala` ASC;";
 
   $sql = mysqli_query($mysqli, $query);
 ?>
@@ -97,6 +97,14 @@
                       </p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -129,7 +137,7 @@
                         <label for="daftar-gejala">Tambah Gejala</label>
                         <select name="daftar-gejala" id="daftar-gejala" class="form-control">
                           <?php while ($datas = mysqli_fetch_assoc($sql)) { ?>
-                            <option id="G<?php echo $datas['id'] ?>" value="<?php echo $datas['id'] ?>"><?php echo $datas['nama'] ?></option>
+                            <option id="G<?php echo $datas['id_gejala'] ?>" value="<?php echo $datas['id_gejala'] ?>"><?php echo $datas['gejala'] ?></option>
                           <?php } ?>
                         </select>
                       </div>
@@ -189,7 +197,6 @@
         daftarGejala.options[index].removeAttribute('disabled');
         $(`#${index}`).remove();
 
-        console.log(arrayGejala);
         // ubah string pada inputan menjadi array
         array = arrayGejala.value.split(",");
 
@@ -202,7 +209,7 @@
         // ubah value pada inputan menjadi nilai baru yang dimana gejala tadi telah di hapus
         arrayGejala.value = array.toString();
 
-        if( arrayGejala.value = "" || array.length == 2){
+        if( arrayGejala.value != "" || array.length == 2){
           btnForm.disabled = true;
         }
       }

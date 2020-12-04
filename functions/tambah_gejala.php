@@ -4,7 +4,7 @@
 
     $nama = $_POST['nama'];
 
-    $sql = "INSERT INTO `gejala` (`id`, `nama`)
+    $sql = "INSERT INTO `gejala` (`id_gejala`, `gejala`)
             VALUES (NULL, '$nama');";
 
     if ($mysqli->query($sql) === TRUE) {

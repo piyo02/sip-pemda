@@ -8,11 +8,22 @@
     header("Location: penyakit.php");
     exit;
   }
-  $query_gejala = "SELECT gejala.*, gejala_penyakit.id_penyakit FROM `gejala` LEFT JOIN gejala_penyakit ON gejala_penyakit.id_gejala=gejala.id AND gejala_penyakit.id_penyakit=$id ORDER BY nama ASC;";
+  $query_gejala = "SELECT gejala.*, aturan_gejala.id_aturan FROM `gejala` LEFT JOIN aturan_gejala ON aturan_gejala.id_gejala=gejala.id_gejala AND aturan_gejala.id_aturan=$id ORDER BY gejala ASC;";
   $sql_gejala = mysqli_query($mysqli, $query_gejala);
 
-  $query_penyakit = "SELECT * FROM `penyakit` WHERE `id`=$id;";
+  $query_penyakit = "SELECT `penyakit`.*, 
+                      penyebab.penyebab,
+                      obat.obat,
+                      penanganan.penanganan
+                    FROM `penyakit`
+                    INNER JOIN obat ON obat.id_obat = penyakit.id_penyakit
+                    INNER JOIN penanganan ON penanganan.id_penanganan = penyakit.id_penyakit
+                    INNER JOIN penyebab ON penyebab.id_penyebab = penyakit.id_penyakit
+                    WHERE `id_penyakit`=$id;";
   $sql_penyakit = mysqli_query($mysqli, $query_penyakit);
+
+  $query_kateg = "SELECT * FROM `kategori_penyakit` ORDER BY `kategori_penyakit` ASC;";
+  $sql_kateg = mysqli_query($mysqli, $query_kateg);
 
   if(mysqli_num_rows($sql_penyakit) == 0){
     // fungsi untuk mengembalikan user ke halaman daftar penyakit jika penyakit dengan id tersebut tidak ditemukan
@@ -113,6 +124,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -140,10 +159,10 @@
                   <?php 
                     while($data_penyakit = mysqli_fetch_assoc($sql_penyakit)){ 
                   ?>
-                    <input type="hidden" class="form-control" value="<?php echo $data_penyakit['id']; ?>" id="id" name="id">
+                    <input type="hidden" class="form-control" value="<?php echo $data_penyakit['id_penyakit']; ?>" id="id" name="id">
                     <div class="form-group">
                       <label for="">Nama Penyakit</label>
-                      <input type="text" class="form-control" value="<?php echo $data_penyakit['nama']; ?>" id="nama" name="nama">
+                      <input type="text" class="form-control" value="<?php echo $data_penyakit['penyakit']; ?>" id="nama" name="nama">
                     </div>
                     <div class="form-group">
                       <label for="">Deskripsi Penyakit</label>
@@ -157,16 +176,30 @@
                         ?>
                         <div class="col-2">
                           <div class="form-check">
-                            <?php if($data_gejala['id_penyakit'] != NULL){ ?>
-                            <input checked class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_gejala['id']; ?>" value="<?php echo $data_gejala['id']; ?>">
+                            <?php if($data_gejala['id_aturan'] != NULL){ ?>
+                            <input checked class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_gejala['id_gejala']; ?>" value="<?php echo $data_gejala['id_gejala']; ?>">
                             <?php } else {?>
-                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_gejala['id']; ?>" value="<?php echo $data_gejala['id']; ?>">
+                            <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $data_gejala['id_gejala']; ?>" value="<?php echo $data_gejala['id_gejala']; ?>">
                             <?php } ?>
-                            <label class="form-check-label" for="<?php echo $data_gejala['id']; ?>"><?php echo $data_gejala['nama']; ?></label>
+                            <label class="form-check-label" for="<?php echo $data_gejala['id_gejala']; ?>"><?php echo $data_gejala['gejala']; ?></label>
                           </div>
                         </div>
                         <?php } ?>
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Kategori Penyakit</label>
+                      <select name="kategori_penyakit" id="kategori_penyakit" class="form-control">
+                        <?php 
+                          while($datas = mysqli_fetch_assoc($sql_kateg)){ 
+                            if($datas['id_kategori_penyakit'] == $data_penyakit['id_kategori_penyakit']){
+                          ?>
+                            <option value="<?php echo $datas['id_kategori_penyakit']?>" selected><?php echo $datas['kategori_penyakit']?></option>
+                          <?php } else { ?>
+                            <option value="<?php echo $datas['id_kategori_penyakit']?>"><?php echo $datas['kategori_penyakit']?></option>
+                          <?php } 
+                            } ?>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="">Penyebab</label>

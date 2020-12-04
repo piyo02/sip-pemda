@@ -4,8 +4,12 @@
   
   $id = $_SESSION['id'];
 
-  $query = "SELECT * FROM `users` WHERE `id`=$id ;";
+  $query = "SELECT * FROM `wali` WHERE `id_wali`=$id ;";
   $sql = mysqli_query($mysqli, $query);
+
+  $query_anak = "SELECT * FROM `anak` WHERE `id_wali`=$id ;";
+  $sql_anak = mysqli_query($mysqli, $query_anak);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,6 +101,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -131,54 +143,88 @@
                 unset($_SESSION['color_alert']);
               } ?>
 
-              <div class="card col-12">
-                <div class="card-body">
-                  <form action="../functions/edit_profile.php" method="post">
-                    <div class="row">
-                      <?php while($datas = mysqli_fetch_assoc($sql) ){ ?>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label for="">Username</label>
-                          <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="<?php echo $datas['username'] ?>">
+              <div class="col-6">
+                <div class="card">
+                  <div class="card-body">
+                    <form action="../functions/edit_profile_wali.php" method="post">
+                      <div class="row">
+                        <?php while($datas = mysqli_fetch_assoc($sql) ){ ?>
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="">Username</label>
+                            <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="<?php echo $datas['username'] ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="">Nama Wali</label>
+                            <input type="text" class="form-control" placeholder="Nama Wali" id="nama_wali" name="nama_wali" readonly value="<?php echo $datas['nama_wali'] ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="">Nomor Telepon</label>
+                            <input type="text" class="form-control" placeholder="Nomor Telepon" id="no_hp" name="no_hp" value="<?php echo $datas['no_hp'] ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="">Alamat</label>
+                            <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat" value="<?php echo $datas['alamat'] ?>">
+                          </div>
+                          <div class="form-group">
+                            <label for="">Password Lama</label>
+                            <input type="password" class="form-control" placeholder="Password Lama" id="password" name="password">
+                          </div>
+                          <div class="form-group">
+                            <label for="">Password Baru</label>
+                            <input type="password" class="form-control" placeholder="Password Baru" id="new_password" name="new_password">
+                          </div>
                         </div>
-                        <div class="form-group">
-                          <label for="">Email</label>
-                          <input type="text" class="form-control" placeholder="Email" id="email" name="email" readonly value="<?php echo $datas['email'] ?>">
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary btn-sm float-right">Edit</button>                    
                         </div>
-                        <div class="form-group">
-                          <label for="">Nama Anak</label>
-                          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak" value="<?php echo $datas['nama_anak'] ?>">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Umur</label>
-                          <input type="number" class="form-control" placeholder="Umur" id="umur" name="umur" value="<?php echo $datas['umur'] ?>">
-                        </div>  
+                        <?php } ?>
                       </div>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label for="">Nomor Telepon</label>
-                          <input type="text" class="form-control" placeholder="Nomor Telepon" id="nomor_telepon" name="nomor_telepon" value="<?php echo $datas['nomor_telepon'] ?>">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Alamat</label>
-                          <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat" value="<?php echo $datas['alamat'] ?>">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Password Lama</label>
-                          <input type="password" class="form-control" placeholder="Password Lama" id="password" name="password">
-                        </div>
-                        <div class="form-group">
-                          <label for="">Password Baru</label>
-                          <input type="password" class="form-control" placeholder="Password Baru" id="new_password" name="new_password">
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-sm float-right">Edit</button>                    
-                      </div>
-                      <?php } ?>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
+              </div>
+              <div class="col-6">
+                <?php while($data_anak = mysqli_fetch_assoc($sql_anak) ){ ?>
+                <div class="card">
+                  <div class="card-body">
+                    <form action="../functions/edit_profile_anak.php" method="post">
+                      <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" id="id_anak" name="id_anak" value="<?php echo $data_anak['id_anak'] ?>">
+                            <div class="form-group">
+                              <label for="">Nama Anak</label>
+                              <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak" value="<?php echo $data_anak['nama_anak'] ?>">
+                            </div>
+                            <div class="form-group">
+                              <label for="">Umur</label>
+                              <input type="number" class="form-control" placeholder="Umur" id="umur" name="umur" value="<?php echo $data_anak['umur'] ?>">
+                            </div>
+                            <div class="form-group">
+                              <label for="">Jenis Kelamin</label>
+                              <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                <?php 
+                                $query_jenis_kelamin = "SELECT * FROM jenis_kelamin";
+                                $sql_jenis_kelamin = mysqli_query($mysqli, $query_jenis_kelamin);
+
+                                while($data = mysqli_fetch_assoc($sql_jenis_kelamin)){ 
+                                  if ($data_anak['id_jenis_kelamin'] == $data['id_jenis_kelamin']){ ?>
+                                    <option value="<?php echo $data['id_jenis_kelamin']; ?>" selected><?php echo $data['jenis_kelamin']; ?></option>
+                                  <?php } else { ?>
+                                    <option value="<?php echo $data['id_jenis_kelamin']; ?>"><?php echo $data['jenis_kelamin']; ?></option>
+                                  <?php }
+                                  } ?>
+                              </select>
+                            </div>  
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-primary btn-sm float-right">Edit</button>                    
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <?php } ?>
               </div>
             </div>
           </div>

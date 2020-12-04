@@ -6,7 +6,7 @@
     $id = $_POST['id'];
     $nama = $_POST['nama'];
 
-    $sql = "UPDATE `gejala` SET `nama` = '$nama' WHERE `gejala`.`id` = $id;";
+    $sql = "UPDATE `gejala` SET `gejala` = '$nama' WHERE `gejala`.`id_gejala` = $id;";
 
     if ($mysqli->query($sql) === TRUE) {
         // kalau berhasil tambah data, kembali ke halaman gejala, dan berikan alert berhasil tambah data

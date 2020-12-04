@@ -5,17 +5,17 @@
         // data awal tentang gejala
         // $symptoms = [4, 5, 6, 7, 8, 12];
         $daftar_gejala = explode(",", trim($_POST['array-gejala'], ","));
-
+        
         // forward chaining
         // rules
-        $query = "SELECT gejala_penyakit.*, penyakit.nama FROM `gejala_penyakit`
-                    LEFT JOIN penyakit ON penyakit.id = gejala_penyakit.id_penyakit
+        $query = "SELECT aturan_gejala.*, penyakit.penyakit FROM `aturan_gejala`
+                    LEFT JOIN penyakit ON penyakit.id_penyakit = aturan_gejala.id_aturan
                     ORDER BY id_penyakit, id_gejala ASC";
         $sql = mysqli_query($mysqli, $query);
 
         $daftar_aturan = [];
         while($datas = mysqli_fetch_assoc($sql)){ 
-            $daftar_aturan[$datas['id_penyakit']][] = (int) $datas['id_gejala'];
+            $daftar_aturan[$datas['id_aturan']][] = (int) $datas['id_gejala'];
         }
 
         // variabel awal
@@ -52,7 +52,7 @@
 
         // backward chaining
 
-        $query = "SELECT gejala_penyakit.id_gejala FROM `gejala_penyakit` WHERE id=$penyakit
+        $query = "SELECT aturan_gejala.id_gejala FROM `aturan_gejala` WHERE id_aturan=$penyakit
                     ORDER BY id_gejala ASC";
         $sql = mysqli_query($mysqli, $query);
 
@@ -77,12 +77,25 @@
             $s = "salah";
         }
 
+        $tanggal = date('Y-m-d');
+        
+        $query = "INSERT INTO diagnosa (id_diagnosa, id_anak, diagnosa, tanggal)
+                    VALUES (NULL, 1, 'hasil diagnosa', '$tanggal')";
+        $sql = mysqli_query($mysqli, $query);
+        $id_diagnosa = $mysqli->insert_id;
+        
+        foreach ($daftar_gejala as $gejala) {
+            $query = "INSERT INTO diagnosa_gejala (id_diagnosa, id_gejala)
+                        VALUES ($id_diagnosa, $gejala)";
+            $sql = mysqli_query($mysqli, $query);
+        }
+
         // query gejala dan penyakit
         $id_gejala = join(",", $daftar_gejala);
-        $query_gejala = "SELECT * FROM `gejala` WHERE id in ($id_gejala);";
+        $query_gejala = "SELECT * FROM `gejala` WHERE id_gejala in ($id_gejala);";
         $sql_gejala = mysqli_query($mysqli, $query_gejala);
 
-        $query_penyakit = "SELECT * FROM `penyakit` WHERE id = $penyakit;";
+        $query_penyakit = "SELECT * FROM `penyakit` WHERE id_penyakit = $penyakit;";
         $sql_penyakit = mysqli_query($mysqli, $query_penyakit);
     }
 

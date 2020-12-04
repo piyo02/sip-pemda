@@ -3,7 +3,7 @@
     include '../functions/session.php';
     
     $id = $_GET['id'];
-    $query = "SELECT * FROM `gejala` WHERE `id`=$id;";
+    $query = "SELECT * FROM `gejala` WHERE `id_gejala`=$id;";
 
     $sql = mysqli_query($mysqli, $query);
 ?>
@@ -97,6 +97,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -130,10 +138,10 @@
                         ?>
                         <form action="../functions/edit_gejala.php" method="post">
                             <!-- type hidden berarti inputannya tersembunyi atau tidak kelihatan di halaman -->
-                            <input type="hidden" name="id" value="<?php echo $datas['id'] ?>">
+                            <input type="hidden" name="id" value="<?php echo $datas['id_gejala'] ?>">
                             <div class="form-group">
                                 <label for="">Nama Gejala</label>
-                                <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama" value="<?php echo $datas['nama'] ?>">
+                                <input type="text" class="form-control" placeholder="Nama Gejala" id="nama" name="nama" value="<?php echo $datas['gejala'] ?>">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary mr-2">Edit</button>
                             <a href="gejala.php" class="btn btn-sm btn-default">Kembali</a>
