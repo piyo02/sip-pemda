@@ -29,8 +29,8 @@
             exit;
         }
     } else {
-        echo 'tidak ada user yang ditemukan';
-        $messages = "Username/Password Salah, Login Gagal";
+        $_SESSION['message'] = "Username/Password Salah, Login Gagal";
+        $_SESSION['color_alert'] = "danger";
         header("Location: ../pages/login.php");
         exit;
     }

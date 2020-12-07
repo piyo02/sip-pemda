@@ -111,6 +111,14 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a href="pakar.php" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>
+                    Informasi Pakar
+                  </p>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -133,23 +141,27 @@
               <div class="col-12 alert alert-success text-center" role="alert">
                 Silahkan Memilih Gejala!
               </div>
-              <div class="col-12">
-                <div class="row justify-content-between">
-                  <div class="col-4">
-                    <div class="card container p-3">
-                      <div class="form-group">
-                        <label for="daftar-gejala">Tambah Gejala</label>
-                        <select name="daftar-gejala" id="daftar-gejala" class="form-control">
-                          <?php while ($datas = mysqli_fetch_assoc($sql)) { ?>
-                            <option id="G<?php echo $datas['id_gejala'] ?>" value="<?php echo $datas['id_gejala'] ?>"><?php echo $datas['gejala'] ?></option>
+              <form action="diagnosis.php" method="post">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="card">
+                        <div class="card-header">
+                          <h4>Daftar Gejala</h4>
+                        </div>
+                        <div class="card-body">
+                          <?php 
+                            while($datas = mysqli_fetch_assoc($sql)){ 
+                          ?>
+                            <div class="form-check mb-1">
+                              <input class="form-check-input" type="checkbox" name="gejala[]" id="<?php echo $datas['id_gejala']; ?>" value="<?php echo $datas['id_gejala']; ?>">
+                              <label class="form-check-label" for="<?php echo $datas['id_gejala']; ?>"><?php echo $datas['gejala']; ?></label>
+                            </div>
                           <?php } ?>
-                        </select>
+                        </div>
                       </div>
-                      <button type="submit" class="btn btn-sm btn-success" id="tambah-gejala">Tambah</button>
                     </div>
-                  </div>
-                  <div class="col-6">
-                    <form action="diagnosis.php" method="post">
+                    <div class="col-6">
                       <div class="card container p-3">
                         <div class="form-group">
                           <label for="anak">Anak</label>
@@ -160,19 +172,11 @@
                           </select>
                         </div>
                       </div>
-                      <div class="card">
-                        <div class="card-body">
-                          <h5>Daftar Gejala Pilihan</h5>
-                          <div id="list-gejala">
-                            <input type="hidden" name="array-gejala" id="array-gejala" value="">
-                          </div>
-                          <button class="btn btn-sm btn-success" id="btn-form" disabled>Diagnosa</button>
-                        </div>
-                      </div>
-                    </form>
+                      <button class="btn btn-sm btn-success" id="btn-form">Diagnosa</button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </section>
@@ -200,90 +204,5 @@
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
-    <script>
-      const btnAddSymp = document.getElementById('tambah-gejala');
-      const daftarGejala = document.getElementById('daftar-gejala');
-      const listGejala = document.getElementById('list-gejala');
-      const btnForm = document.getElementById('btn-form');
-      const arrayGejala = document.getElementById('array-gejala');
-
-      function deleteSympInList(index, value) {
-        daftarGejala.options[index].removeAttribute('disabled');
-        $(`#${index}`).remove();
-
-        // ubah string pada inputan menjadi array
-        array = arrayGejala.value.split(",");
-
-        // cari index dari id gejala pada array
-        index = array.indexOf(value.toString());
-
-        // hapus gejala tersebut pada array
-        array.splice(index, 1);
-
-        // ubah value pada inputan menjadi nilai baru yang dimana gejala tadi telah di hapus
-        arrayGejala.value = array.toString();
-
-        if( arrayGejala.value != "" || array.length == 2){
-          btnForm.disabled = true;
-        }
-      }
-
-      btnAddSymp.addEventListener('click', () => {
-        const symptomValue = daftarGejala.value;
-        const symptomText = daftarGejala.options[daftarGejala.selectedIndex].text;
-        
-        if(!daftarGejala.options[daftarGejala.selectedIndex].disabled){
-          // buat div
-          const div = document.createElement("div");
-          div.setAttribute("class", "input-group input-group-sm mb-2")
-          div.setAttribute("id", daftarGejala.selectedIndex)
-
-          // buat input
-          const input = document.createElement("input");
-          input.setAttribute("class", "form-control")
-          input.setAttribute("type", "text");
-          input.setAttribute("readonly", "true");
-          input.setAttribute("value", symptomText);
-          input.setAttribute("data", symptomValue);
-          
-          // buat span
-          const span = document.createElement("span");
-          span.setAttribute("class", "input-group-append")
-
-          // buat button
-          const button = document.createElement("button");
-          button.setAttribute("class", "btn btn-danger btn-flat")
-          button.setAttribute("type", "button")
-          button.setAttribute("onclick", `deleteSympInList(${daftarGejala.selectedIndex}, ${symptomValue})`)
-          // tambahkan text kedalam button
-          const textButton = document.createTextNode("Hapus");
-          button.appendChild(textButton);
-
-          // tambahkan button ke dalam span
-          span.appendChild(button);
-
-          // tambahkan input ke dalam div
-          div.appendChild(input)
-
-          // tambahkan span ke dalam div
-          div.appendChild(span)
-          
-          // tambahkan div ke dalam list gejala
-          listGejala.appendChild(div)
-
-          // disable pilihan yang sudah di pilih
-          daftarGejala.options[daftarGejala.selectedIndex].disabled = "true";
-
-          arrayGejala.value = `${arrayGejala.value},${symptomValue}`;
-          countArray = arrayGejala.value.split(",");
-
-          if( arrayGejala.value != "" && countArray.length > 2){
-            btnForm.disabled = false;
-          }
-        }
-      });
-
-    </script>
-
   </body>
 </html>

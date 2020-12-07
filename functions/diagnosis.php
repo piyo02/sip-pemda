@@ -4,7 +4,9 @@
 
         // data awal tentang gejala
         // $symptoms = [4, 5, 6, 7, 8, 12];
-        $daftar_gejala = explode(",", trim($_POST['array-gejala'], ","));
+        // $daftar_gejala = explode(",", trim($_POST['array-gejala'], ","));
+        $daftar_gejala = $_POST['gejala'];
+
         $id_anak = $_POST['anak'];
         // forward chaining
         // rules

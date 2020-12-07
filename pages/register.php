@@ -1,6 +1,7 @@
 <?php
 
   include "../connect.php";
+  session_start();
 
   $query = "SELECT * FROM jenis_kelamin";
   $sql = mysqli_query($mysqli, $query);
@@ -51,7 +52,7 @@
       <!-- kenapa ../ karena action yang kita tuju berbeda folder, yang di tuju adalah file register.php pada folder function, sedangkan file yang sekarang diedit berada di folder pages, jadi kita keluar dulu dari folder pages dengan ../, lalu masuk ke folder functions lalu menuju file register.php -->
       <!-- untuk tiap inputan, berikan id dan name yang sama dengan kolom di database -->
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nama Wali" id="nama_wali" name="nama_wali">
+          <input type="text" class="form-control" placeholder="Nama Wali" id="nama_wali" name="nama_wali" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -59,15 +60,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Username" id="username" name="username">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="No HP" id="no_hp" name="no_hp">
+          <input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -75,15 +68,23 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat">
+          <input type="text" class="form-control" placeholder="No HP" id="no_hp" name="no_hp" required>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-user"></span>
+              <span class="fas fa-phone"></span>
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+          <input type="text" class="form-control" placeholder="Alamat" id="alamat" name="alamat" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-address-book"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" id="password" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -91,7 +92,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Masukkan Ulang Password" id="re_password" name="re_password">
+          <input type="password" class="form-control" placeholder="Masukkan Ulang Password" id="re_password" name="re_password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -99,7 +100,7 @@
           </div>
         </div>
         <div class="input-group mb-3 mt-5">
-          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak">
+          <input type="text" class="form-control" placeholder="Nama Anak" id="nama_anak" name="nama_anak" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -107,10 +108,10 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usia" id="umur" name="umur">
+          <input type="number" class="form-control" placeholder="Usia" id="umur" name="umur" required>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-user"></span>
+              <span class="fas fa-baby"></span>
             </div>
           </div>
         </div>

@@ -1,0 +1,5 @@
+umpan balik kalau registrasi gagal (beres)
+umpan balik kalau login gagal (beres)
+logo username di login (beres)
+informasi pakar (beres)
+pilih gejala jadikan checkbox (beres)
