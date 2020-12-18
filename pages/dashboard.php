@@ -119,6 +119,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="wali.php" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>
+                    Data Wali
+                  </p>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -139,8 +147,19 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-12 alert alert-success text-center" role="alert">
-                Silahkan Memilih Gejala!
+                Silahkan Memilih Gejala (Gejala yang dipilih minimal 3)!
               </div>
+              <?php if(isset($_SESSION['message'])){ ?>
+              <div class="col-12">
+                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible text-center">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <?php echo $_SESSION['message']; ?>
+                </div>
+              </div>
+              <?php 
+                unset($_SESSION['message']);
+                unset($_SESSION['color_alert']);
+              } ?>
               <form action="diagnosis.php" method="post">
                 <div class="col-12">
                   <div class="row">

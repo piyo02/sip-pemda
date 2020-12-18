@@ -1,13 +1,30 @@
 <?php
 
-    if(isset($_POST)){
+    if(isset($_POST) || $sql_diagnosa){
+        $riwayat = false;
 
         // data awal tentang gejala
         // $symptoms = [4, 5, 6, 7, 8, 12];
         // $daftar_gejala = explode(",", trim($_POST['array-gejala'], ","));
-        $daftar_gejala = $_POST['gejala'];
+        if($sql_diagnosa){
+            $riwayat = true;
+            while ($data = mysqli_fetch_assoc($sql_diagnosa)) {
+                $daftar_gejala[] = (int) $data['id_gejala'];
+                $id_anak = $data['id_anak'];
+            }
+        }
+        if(count($_POST)){
+            $daftar_gejala = $_POST['gejala'];
+            $id_anak = $_POST['anak'];
+        }
 
-        $id_anak = $_POST['anak'];
+        if(count($daftar_gejala) < 3){
+            $_SESSION['message'] = 'Gejala yang anda pilih kurang dari 3!!!';
+            $_SESSION['color_alert'] = 'warning';
+            header('Location: ../pages/dashboard.php');
+            exit;
+        }
+        
         // forward chaining
         // rules
         $query = "SELECT aturan_gejala.*, penyakit.penyakit FROM `aturan_gejala`
@@ -40,16 +57,18 @@
             }
 
             $persentasi_gejala_forward = $banyak_gejala_cocok/count($aturan)*100;
-            if($persentasi_gejala_forward > $persentasi_kecocokan && $banyak_gejala_cocok > $kecocokan_gejala){
-                $penyakit               = $key;
-                $persentasi_kecocokan   = $persentasi_gejala_forward;
-                $kecocokan_gejala       = $banyak_gejala_cocok;
-                $ketidakcocokan_gejala  = $banyak_gejala_tidak_cocok;
+            if ($banyak_gejala_cocok >= 3){
+                if( !($penyakit && $banyak_gejala_cocok >= $kecocokan_gejala) ){
+                    $penyakit = 0;
+                }else {
+                    if($persentasi_gejala_forward > $persentasi_kecocokan && $banyak_gejala_cocok > $kecocokan_gejala){
+                        $penyakit               = $key;
+                        $persentasi_kecocokan   = $persentasi_gejala_forward;
+                        $kecocokan_gejala       = $banyak_gejala_cocok;
+                        $ketidakcocokan_gejala  = $banyak_gejala_tidak_cocok;
+                    }
+                }
             }
-        }
-
-        if ($kecocokan_gejala < 2){
-            $penyakit = 0;
         }
 
         // backward chaining
@@ -79,21 +98,21 @@
             $s = "salah";
         }
 
-
-        // memasukkan data diagnosa
-        $tanggal = date('Y-m-d');
-        
-        $query = "INSERT INTO diagnosa (id_diagnosa, id_anak, diagnosa, tanggal)
-                    VALUES (NULL, $id_anak, $penyakit, '$tanggal')";
-        $sql = mysqli_query($mysqli, $query);
-        $id_diagnosa = $mysqli->insert_id;
-        
-        foreach ($daftar_gejala as $gejala) {
-            $query = "INSERT INTO diagnosa_gejala (id_diagnosa, id_gejala)
-                        VALUES ($id_diagnosa, $gejala)";
+        if(!$riwayat){
+            // memasukkan data diagnosa
+            $tanggal = date('Y-m-d');
+            
+            $query = "INSERT INTO diagnosa (id_diagnosa, id_anak, diagnosa, tanggal)
+                        VALUES (NULL, $id_anak, $penyakit, '$tanggal')";
             $sql = mysqli_query($mysqli, $query);
+            $id_diagnosa = $mysqli->insert_id;
+            
+            foreach ($daftar_gejala as $gejala) {
+                $query = "INSERT INTO diagnosa_gejala (id_diagnosa, id_gejala)
+                            VALUES ($id_diagnosa, $gejala)";
+                $sql = mysqli_query($mysqli, $query);
+            }
         }
-
         // query gejala dan penyakit
         $id_gejala = join(",", $daftar_gejala);
         $query_gejala = "SELECT * FROM `gejala` WHERE id_gejala in ($id_gejala);";

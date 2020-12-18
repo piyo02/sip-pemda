@@ -1,15 +1,28 @@
 <?php
-  include '../functions/session.php';
   include '../connect.php';
-  include '../functions/diagnosis.php';
+  include '../functions/session.php';
 
+    $id_diagnosa = $_GET['id'];
+
+  $query_diagnosa = "SELECT diagnosa.*, 
+                            gejala.gejala, 
+                            gejala.id_gejala 
+                    FROM `diagnosa_gejala`
+                    INNER JOIN diagnosa ON diagnosa.id_diagnosa = diagnosa_gejala.id_diagnosa
+                    INNER JOIN gejala ON gejala.id_gejala = diagnosa_gejala.id_gejala
+                    WHERE diagnosa.id_diagnosa = $id_diagnosa";
+  $sql_diagnosa = mysqli_query($mysqli, $query_diagnosa);
+
+  include '../functions/diagnosis.php';
+  $query = $query_diagnosa;
+  $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SIP-PEMDA | Diagnosa </title>
+    <title>SIP-PEMDA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -25,7 +38,7 @@
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -62,7 +75,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
               <li class="nav-item">
                 <!-- href nya di sesuaikan dengan nama filenya -->
-                <a href="dashboard.php" class="nav-link active">
+                <a href="dashboard.php" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     Konsultasi
@@ -78,23 +91,23 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="penyakit.php" class="nav-link">
-                  <i class="nav-icon fas fa-disease"></i>
-                  <p>
-                    Daftar Penyakit
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="gejala.php" class="nav-link">
-                  <i class="nav-icon fas fa-heartbeat"></i>
-                  <p>
-                    Daftar Gejala
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
+                  <li class="nav-item">
+                    <a href="penyakit.php" class="nav-link">
+                      <i class="nav-icon fas fa-disease"></i>
+                      <p>
+                        Daftar Penyakit
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="gejala.php" class="nav-link">
+                      <i class="nav-icon fas fa-heartbeat"></i>
+                      <p>
+                        Daftar Gejala
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="kategori.php" class="nav-link">
                       <i class="nav-icon fas fa-list-ul"></i>
                       <p>
@@ -113,8 +126,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="wali.php" class="nav-link">
-                  <i class="nav-icon fas fa-user"></i>
+                <a href="wali.php" class="nav-link active">
+                  <i class="nav-icon fas fa-user-md"></i>
                   <p>
                     Data Wali
                   </p>
@@ -130,7 +143,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Diagnosa Penyakit</h1>
+                <h1 class="m-0 text-dark">Riwayat Konsultasi</h1>
               </div>
             </div>
           </div>
@@ -138,10 +151,18 @@
 
         <section class="content">
           <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <div class="row justify-content-between">
-                    <div class="col-4">
+            <div class="row justify-content-between">
+
+            <?php
+                if(mysqli_num_rows($sql) == 0){ ?>
+                    <div class="col-12">
+                        <h5>Tidak ada data Riwayat</h5>
+                        <a href="wali.php" class="btn btn-sm btn-success">Kembali</a>
+                    </div>
+            <?php 
+                } else { 
+            ?>
+                <div class="col-4">
                         <div class="card">
                             <div class="card-header">
                               List Gejala Pilihan Pasien
@@ -149,7 +170,7 @@
                             <div class="card-body">
                               <ul>
                               <?php
-                                while ($data = mysqli_fetch_assoc($sql_gejala)) {
+                                while ($data = mysqli_fetch_assoc($sql)) {
                                   echo "<li>".$data['gejala']."</li>";
                                 }
                               ?>
@@ -231,11 +252,12 @@
                       }
                     ?>
                         <div>
-                            <a href="dashboard.php" class="btn btn-sm btn-success">Kembali</a>
+                            <a href="wali.php" class="btn btn-sm btn-success">Kembali</a>
                         </div>
                     </div>
-                </div>
-              </div>
+            <?php
+                }
+            ?>
             </div>
           </div>
         </section>
@@ -262,8 +284,27 @@
     <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <script src="../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
     <script src="../dist/js/demo.js"></script>
+
+    <script>
+      $(function () {
+        $('#tabel-riwayat').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+        });
+      });
+    </script>
   </body>
 </html>

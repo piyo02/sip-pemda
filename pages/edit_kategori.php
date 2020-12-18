@@ -119,6 +119,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="wali.php" class="nav-link">
+                  <i class="nav-icon fas fa-user-md"></i>
+                  <p>
+                    Data Wali
+                  </p>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>

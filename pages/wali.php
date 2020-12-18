@@ -1,9 +1,15 @@
 <?php 
   include '../connect.php';
   include '../functions/session.php';
-
-  $query = "SELECT * FROM `kategori_penyakit` ORDER BY `kategori_penyakit` ASC;";
-
+  
+  $query = "SELECT wali.*, 
+                    anak.id_anak, 
+                    anak.nama_anak, 
+                    anak.umur, 
+                    jenis_kelamin.jenis_kelamin 
+                    FROM anak
+                    INNER JOIN wali ON wali.id_wali = anak.id_wali
+                    INNER JOIN jenis_kelamin ON jenis_kelamin.id_jenis_kelamin = anak.id_jenis_kelamin";
   $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
@@ -75,8 +81,8 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
                   <p>
                     Master Data
@@ -101,13 +107,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="gejala.php" class="nav-link active">
-                  <i class="nav-icon fas fa-list-ul"></i>
-                  <p>
-                    Kategori Penyakit
-                  </p>
-                </a>
-              </li>
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -119,8 +125,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="wali.php" class="nav-link">
-                  <i class="nav-icon fas fa-user-md"></i>
+                <a href="wali.php" class="nav-link active">
+                  <i class="nav-icon fas fa-user"></i>
                   <p>
                     Data Wali
                   </p>
@@ -136,7 +142,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Kategori Penyakit</h1>
+                <h1 class="m-0 text-dark">Data Wali</h1>
               </div>
             </div>
           </div>
@@ -145,62 +151,51 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <!-- jika ada data session message, tampilkan pesan tersebut -->
-              <?php if(isset($_SESSION['message'])){ ?>
-              <div class="col-12">
-                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <?php echo $_SESSION['message']; ?>
-                </div>
-              </div>
-              <?php 
-                unset($_SESSION['message']);
-                unset($_SESSION['color_alert']);
-              } ?>
               
               <div class="card col-12">
-              <!-- tombol tambah muncul hanya untuk user dengan role admin -->
-              <?php if($_SESSION['role'] == "admin"){ ?>
-                <div class="card-header col-12">
-                  <a href="tambah_kategori.php" class="btn btn-sm btn-primary float-right">Tambah Kategori Penyakit</a>
-                </div>
-              <?php } ?>
                 <div class="card-body">
-                  <?php
+                <?php
                     if(mysqli_num_rows($sql) == 0){ ?>
-                      Tidak ada data tentang Kategori Penyakit
+                      Tidak ada data Wali
                   <?php 
                     } else { 
                   ?>
-                    <table id="tabel-gejala" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Kategori Penyakit</th>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <th>Aksi</th>
+                    <table id="tabel-wali" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama Wali</th>
+                                <th>Username</th>
+                                <th>Nama Anak</th>
+                                <th>Umur</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Alamat</th>
+                                <th>No Tlp</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            $number = 1;
+                            while($datas = mysqli_fetch_assoc($sql)){ 
+                          ?>
+                            <tr>
+                              <td><?php echo $number++; ?></td>
+                              <td><?php echo $datas['nama_wali']; ?></td>
+                              <td><?php echo $datas['username']; ?></td>
+                              <td><?php echo $datas['nama_anak']; ?></td>
+                              <td><?php echo $datas['umur']; ?></td>
+                              <td><?php echo $datas['jenis_kelamin']; ?></td>
+                              <td><?php echo $datas['alamat']; ?></td>
+                              <td><?php echo $datas['no_hp']; ?></td>
+                              <td>
+                                  <a href="riwayat.php?id=<?php echo $datas['id_anak']; ?>" class="btn btn-sm btn-primary">Riwayat Komsultasi</a>
+                              </td>
+                            </tr>
                           <?php } ?>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                          $number = 1;
-                          while($datas = mysqli_fetch_assoc($sql)){ 
-                        ?>
-                        <tr>
-                          <td><?php echo $number++; ?></td>
-                          <td><?php echo $datas['kategori_penyakit']; ?></td>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <td>
-                              <a href="edit_kategori.php?id=<?php echo $datas['id_kategori_penyakit']; ?>" class="btn btn-sm btn-secondary">Edit</a>
-                              <a href="../functions/hapus_kategori.php?id=<?php echo $datas['id_kategori_penyakit']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
-                          </td>
-                          <?php } ?>
-                        </tr>
-                        <?php } ?>
-                      </tbody>
+                        </tbody>
                     </table>
-                  <?php
+                    <?php
                     }
                   ?>
                 </div>
@@ -242,7 +237,7 @@
 
     <script>
       $(function () {
-        $('#tabel-gejala').DataTable({
+        $('#tabel-wali').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": false,

@@ -1,9 +1,11 @@
-<?php 
+<?php
   include '../connect.php';
   include '../functions/session.php';
 
-  $query = "SELECT * FROM `kategori_penyakit` ORDER BY `kategori_penyakit` ASC;";
-
+  $id_anak = $_GET['id'];
+  $query = "SELECT diagnosa.*
+            FROM `diagnosa`
+            WHERE diagnosa.id_anak = $id_anak";
   $sql = mysqli_query($mysqli, $query);
 ?>
 <!DOCTYPE html>
@@ -18,10 +20,6 @@
     <link rel="stylesheet" href="../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link rel="stylesheet" href="../plugins/jqvmap/jqvmap.min.css">
-
-    <!-- DataTables -->
-    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -31,7 +29,7 @@
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+      <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -75,8 +73,8 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-circle"></i>
                   <p>
                     Master Data
@@ -84,30 +82,30 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="penyakit.php" class="nav-link">
-                  <i class="nav-icon fas fa-disease"></i>
-                  <p>
-                    Daftar Penyakit
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="gejala.php" class="nav-link">
-                  <i class="nav-icon fas fa-heartbeat"></i>
-                  <p>
-                    Daftar Gejala
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="gejala.php" class="nav-link active">
-                  <i class="nav-icon fas fa-list-ul"></i>
-                  <p>
-                    Kategori Penyakit
-                  </p>
-                </a>
-              </li>
+                  <li class="nav-item">
+                    <a href="penyakit.php" class="nav-link">
+                      <i class="nav-icon fas fa-disease"></i>
+                      <p>
+                        Daftar Penyakit
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="gejala.php" class="nav-link">
+                      <i class="nav-icon fas fa-heartbeat"></i>
+                      <p>
+                        Daftar Gejala
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="kategori.php" class="nav-link">
+                      <i class="nav-icon fas fa-list-ul"></i>
+                      <p>
+                        Kategori Penyakit
+                      </p>
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item">
@@ -119,7 +117,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="wali.php" class="nav-link">
+                <a href="wali.php" class="nav-link active">
                   <i class="nav-icon fas fa-user-md"></i>
                   <p>
                     Data Wali
@@ -136,7 +134,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Kategori Penyakit</h1>
+                <h1 class="m-0 text-dark">Riwayat Konsultasi</h1>
               </div>
             </div>
           </div>
@@ -145,62 +143,39 @@
         <section class="content">
           <div class="container-fluid">
             <div class="row">
-              <!-- jika ada data session message, tampilkan pesan tersebut -->
-              <?php if(isset($_SESSION['message'])){ ?>
-              <div class="col-12">
-                <div class="alert alert-<?php echo $_SESSION['color_alert'] ?> alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <?php echo $_SESSION['message']; ?>
-                </div>
-              </div>
-              <?php 
-                unset($_SESSION['message']);
-                unset($_SESSION['color_alert']);
-              } ?>
               
               <div class="card col-12">
-              <!-- tombol tambah muncul hanya untuk user dengan role admin -->
-              <?php if($_SESSION['role'] == "admin"){ ?>
-                <div class="card-header col-12">
-                  <a href="tambah_kategori.php" class="btn btn-sm btn-primary float-right">Tambah Kategori Penyakit</a>
-                </div>
-              <?php } ?>
                 <div class="card-body">
-                  <?php
+                <?php
                     if(mysqli_num_rows($sql) == 0){ ?>
-                      Tidak ada data tentang Kategori Penyakit
+                      Tidak ada data Riwayat Konsultasi
                   <?php 
                     } else { 
                   ?>
-                    <table id="tabel-gejala" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Kategori Penyakit</th>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <th>Aksi</th>
+                    <table id="tabel-riwayat" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Riwayat Konsultasi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            $number = 1;
+                            while($datas = mysqli_fetch_assoc($sql)){ 
+                          ?>
+                            <tr>
+                              <td><?php echo $number++; ?></td>
+                              <td><?php echo "Konsultasi tanggal " . $datas['tanggal']; ?></td>
+                              <td>
+                                  <a href="hasil.php?id=<?php echo $datas['id_diagnosa']; ?>" class="btn btn-sm btn-primary">Hasil Konsultasi</a>
+                              </td>
+                            </tr>
                           <?php } ?>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                          $number = 1;
-                          while($datas = mysqli_fetch_assoc($sql)){ 
-                        ?>
-                        <tr>
-                          <td><?php echo $number++; ?></td>
-                          <td><?php echo $datas['kategori_penyakit']; ?></td>
-                          <?php if($_SESSION['role'] == "admin"){ ?>
-                          <td>
-                              <a href="edit_kategori.php?id=<?php echo $datas['id_kategori_penyakit']; ?>" class="btn btn-sm btn-secondary">Edit</a>
-                              <a href="../functions/hapus_kategori.php?id=<?php echo $datas['id_kategori_penyakit']; ?>" onclick="return confirm('Apakah anda yakin ingin menghapus gejala ini?');" class="btn btn-sm btn-danger">Hapus</a>
-                          </td>
-                          <?php } ?>
-                        </tr>
-                        <?php } ?>
-                      </tbody>
+                        </tbody>
                     </table>
-                  <?php
+                    <?php
                     }
                   ?>
                 </div>
@@ -242,7 +217,7 @@
 
     <script>
       $(function () {
-        $('#tabel-gejala').DataTable({
+        $('#tabel-riwayat').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": false,
