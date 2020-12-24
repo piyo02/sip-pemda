@@ -24,7 +24,7 @@
             header('Location: ../pages/dashboard.php');
             exit;
         }
-        
+
         // forward chaining
         // rules
         $query = "SELECT aturan_gejala.*, penyakit.penyakit FROM `aturan_gejala`
@@ -58,7 +58,7 @@
 
             $persentasi_gejala_forward = $banyak_gejala_cocok/count($aturan)*100;
             if ($banyak_gejala_cocok >= 3){
-                if( !($penyakit && $banyak_gejala_cocok >= $kecocokan_gejala) ){
+                if( !($penyakit && $banyak_gejala_cocok >= $kecocokan_gejala) && $kecocokan_gejala ){
                     $penyakit = 0;
                 }else {
                     if($persentasi_gejala_forward > $persentasi_kecocokan && $banyak_gejala_cocok > $kecocokan_gejala){
@@ -70,32 +70,33 @@
                 }
             }
         }
+        if($penyakit){
+            // backward chaining
+            
+            $query = "SELECT aturan_gejala.id_gejala FROM `aturan_gejala` WHERE id_aturan=$penyakit
+                        ORDER BY id_gejala ASC";
+            $sql = mysqli_query($mysqli, $query);
 
-        // backward chaining
-
-        $query = "SELECT aturan_gejala.id_gejala FROM `aturan_gejala` WHERE id_aturan=$penyakit
-                    ORDER BY id_gejala ASC";
-        $sql = mysqli_query($mysqli, $query);
-
-        while($datas = mysqli_fetch_assoc($sql)){
-            $aturan_backward[] = (int) $datas['id_gejala'];
-        }
-
-        $banyak_gejala_cocok = 0;
-        $banyak_gejala_tidak_cocok = 0;
-        foreach ($daftar_gejala as $gejala) {
-            if(in_array((int) $gejala, $aturan_backward)){
-                $banyak_gejala_cocok++;
-            } else {
-                $banyak_gejala_tidak_cocok++;
+            while($datas = mysqli_fetch_assoc($sql)){
+                $aturan_backward[] = (int) $datas['id_gejala'];
             }
-        }
-        $persentasi_gejala_backward = $banyak_gejala_cocok/count($aturan_backward)*100;
 
-        if($persentasi_gejala_backward == $persentasi_gejala_forward){
-            $s = "benar";
-        } else {
-            $s = "salah";
+            $banyak_gejala_cocok = 0;
+            $banyak_gejala_tidak_cocok = 0;
+            foreach ($daftar_gejala as $gejala) {
+                if(in_array((int) $gejala, $aturan_backward)){
+                    $banyak_gejala_cocok++;
+                } else {
+                    $banyak_gejala_tidak_cocok++;
+                }
+            }
+            $persentasi_gejala_backward = $banyak_gejala_cocok/count($aturan_backward)*100;
+
+            if($persentasi_gejala_backward == $persentasi_gejala_forward){
+                $s = "benar";
+            } else {
+                $s = "salah";
+            }
         }
 
         if(!$riwayat){

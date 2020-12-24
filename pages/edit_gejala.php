@@ -107,14 +107,14 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="wali.php" class="nav-link">
                   <i class="nav-icon fas fa-user-md"></i>
                   <p>
-                    Data Wali
+                    Rekam Medik
                   </p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>

@@ -112,14 +112,14 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="wali.php" class="nav-link">
                   <i class="nav-icon fas fa-user"></i>
                   <p>
                     Data Wali
                   </p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>

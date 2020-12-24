@@ -3,3 +3,7 @@ umpan balik kalau login gagal (beres)
 logo username di login (beres)
 informasi pakar (beres)
 pilih gejala jadikan checkbox (beres)
+
+
+cek tes konsultasi (beres)
+menu data wali ganti jadi rekam medik lalu sembunyikan (beres)

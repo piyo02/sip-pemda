@@ -124,14 +124,14 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="wali.php" class="nav-link active">
                   <i class="nav-icon fas fa-user"></i>
                   <p>
-                    Data Wali
+                    Rekam Medik
                   </p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>
@@ -142,7 +142,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Data Wali</h1>
+                <h1 class="m-0 text-dark">Rekam Medik</h1>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@
                 <div class="card-body">
                 <?php
                     if(mysqli_num_rows($sql) == 0){ ?>
-                      Tidak ada data Wali
+                      Tidak ada Rekam Medik
                   <?php 
                     } else { 
                   ?>
